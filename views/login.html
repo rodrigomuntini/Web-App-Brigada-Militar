@@ -4,30 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/login.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <title>Novo Rumo</title>
 </head>
 <body>
     <section>
        <div class="imgBox">
-        <img src="../images/Rectangle 4.png" alt="">
+        <img src="/images/Rectangle 4.png" alt="">
     </div>
     <div class="contentBox">
         <div class="formBox">
             <div class="imgBox2">
-                <img src="../images/NOVO_RUMO.png" alt="">
+                <img src="/images/NOVO_RUMO.png" alt="">
             </div>
             <div class="border"></div>
             <h2>Faça login como administrador</h2>
-            <form>
+            <form method="post" action="/login-verify">
                 <div class="inputBox">
                     <span>E-mail</span>
-                    <input type="text">
+                    <input type="text" name="email">
                 </div>
                 <div class="inputBox">
                     <span>Senha</span>
-                    <input type="password">
+                    <input type="password" name="password">
                 </div>
                 <div class="inputBox">
                     <input type="submit" value="Entrar">
@@ -40,5 +41,37 @@
    
 </body>
 
-<script src="../public/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(() => {
+        const params = new URLSearchParams(window.location.search)
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        
+        if (params.has("error")) {
+            
+            toastr["error"](params.get("error"), "error")
+        }
+            
+
+    })
+</script>
 </html>
