@@ -28,6 +28,10 @@ app.listen(port, () => {
     console.log('info', 'LISTEN ON PORT ' + port);
 });
 
+app.get('/', (req, res) => {
+  res.render('index.html')
+});
+
 app.get('/teste', (req, res) => {
   res.render('teste.html')
 });
@@ -74,6 +78,10 @@ app.post('/login-verify', (req, res) => {
 
 });
 
-app.get('/', (req, res) => {
-  res.render('index.html')
+app.get('/home', (req, res) => {
+  res.render('home.html');
+});
+
+app.get('/users', (req, res) => {
+  res.render('users/list.html');
 });
