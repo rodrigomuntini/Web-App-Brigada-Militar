@@ -4,7 +4,6 @@
 /yarn.lock
 
 # production
-/dist
 /_builder
 
 # misc
