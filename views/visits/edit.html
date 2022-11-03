@@ -15,9 +15,9 @@ Servidores
 {% endblock %}
 
 {% block content %}
-<h3>Adicionar Servidor</h3>
+<h3>Alterar Servidor</h3>
 
-<form action="/users/add" method="post">
+<form action="/users/edit/{{ request_body._id }}" method="post">
     <div class="form-group mb-3">
         <label for="name">Nome</label>
         <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
@@ -29,8 +29,7 @@ Servidores
     </div>
     <div class="form-group mb-3">
         <label for="email">Senha</label>
-        <input type="text" name="password" id="password" class="form-control" required
-            value="{{ request_body.password }}">
+        <input type="text" name="password" id="password" class="form-control" required>
         <a href="#" onclick="genPsswd()">Gerar Senha Aleatória</a>
     </div>
 

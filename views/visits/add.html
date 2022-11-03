@@ -5,17 +5,10 @@ Servidores
 {% endblock %}
 
 {% block header %}
-<script>
-    function genPsswd() {
-        let password = (Math.random() + 1).toString(36).substring(2, 20);
-
-        return $('#password').val(password);
-    }
-</script>
 {% endblock %}
 
 {% block content %}
-<h3>Adicionar Servidor</h3>
+<h3>Adicionar Visita</h3>
 
 <form action="/users/add" method="post">
     <div class="form-group mb-3">
