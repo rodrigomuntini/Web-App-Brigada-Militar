@@ -1,0 +1,166 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Servidores
+{% endblock %}
+
+{% block header %}
+<style>
+    .margin-left {
+        margin-left: 10px;
+    }
+
+    .margin-right {
+        margin-right: 10px;
+    }
+</style>
+
+<script>
+    function genPsswd() {
+        let password = (Math.random() + 1).toString(36).substring(2, 20);
+
+        return $('#password').val(password);
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<h1 style="float: left; margin-bottom: 3%;">Servidores</h1>
+<a href="/users/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Servidor</a>
+
+<div style="clear: both;"></div>
+
+<label for="input-search" style="margin-bottom: 0.5%;">Nome ou E-mail</label>
+
+<div style="clear: both;"></div>
+
+<div class="form-group mb-3" style="float: left; width: 80%; margin-right: 2%;">
+    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. joao@gmail.com">
+</div>
+<button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button>
+
+<table class="table table-stripe table-bordered table-hover">
+    <thead>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Ações</th>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <div class="buttons" style="width: 80%; margin: auto;">
+                    <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
+                    <a href="/users/edit/{{ user._id }}" class="btn btn-primary btn-block"
+                        style="width: 30%; margin-right: 3%;">Alterar</a>
+                    <a href="#" onclick="confirmDeletion('{{ user._id }}');" class="btn btn-danger btn-block"
+                        style="width: 30%;">Apagar</a>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center; margin: auto;">Nenhum resultado Encontrado</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example"></nav>
+    <ul class="pagination">
+
+    {% if (page != 1) %}
+        <li class="page-item"><a class="page-link" href="/users?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
+    {% endif %}
+
+    {% for i in range((page|int - 2), (page|int + 3)) -%}
+        {% if (i == page) %}
+            <li class="page-item active"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+        {% elif (i > 0 and i <= last_page) %}
+            <li class="page-item"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+        {% endif %}
+    {%- endfor %}
+
+    {% if (page < last_page) %}
+        <li class="page-item"><a class="page-link" href="/users?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
+    {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(() => {
+        if ("{{message}}" != "") {
+            toastr["success"]("{{ message }}", "Sucesso!");
+        }
+    })
+
+    const search = () => {
+        let searchText = $('#input-search').val() || "";
+
+        window.location.href = "/users?page=1&search=" + searchText;
+    }
+
+    const confirmDeletion = (id) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success margin-left',
+                cancelButton: 'btn btn-danger margin-right'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Você tem certeza?',
+            text: "Não é possível reverter esta informação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, apagar!',
+            cancelButtonText: 'Não, cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //Delete info
+                $.ajax({
+                    type: "POST",
+                    url: "/users/delete/" + id,
+                    success: function (data) {
+                        if (data) {
+                            window.location.href = "/users";
+
+                            swalWithBootstrapButtons.fire(
+                                'Apagado!',
+                                'Servidor apagado com sucesso',
+                                'success'
+                            );
+                        } else {
+                            swalWithBootstrapButtons.fire(
+                                'Erro!',
+                                'Houve um erro ao deletar o Servidor. Tente novamente!',
+                                'error'
+                            )
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado!',
+                    'Servidor não foi apagado',
+                    'error'
+                )
+            }
+
+        })
+    }
+</script>
+{% endblock %}
