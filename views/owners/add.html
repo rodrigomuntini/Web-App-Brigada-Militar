@@ -1,0 +1,49 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Servidores
+{% endblock %}
+
+{% block header %}
+<script>
+    function genPsswd() {
+        let password = (Math.random() + 1).toString(36).substring(2, 20);
+
+        return $('#password').val(password);
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<h3>Adicionar Servidor</h3>
+
+<form action="/owners/add" method="post">
+    <div class="form-group mb-3">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="email">Endereço</label>
+        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.adress }}">
+    </div>
+    <div class="form-group mb-3">
+        <label for="email">Telefone</label>
+        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.phone }}">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-success">
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% if error %}
+<script>
+    $(document).ready(() => {
+        toastr["error"]("{{ error }}", "Erro!");
+    })
+</script>
+{% endif %}
+{% endblock %}
