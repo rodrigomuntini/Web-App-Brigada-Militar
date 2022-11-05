@@ -117,7 +117,7 @@ app.get("/users", (req, res) => {
 
   $.ajax({
     type: "GET",
-    url: "http://localhost:8000/api/users?page=" + page + search,
+    url: "https://novo-rumo-api.herokuapp.com/api/users?page=" + page + search,
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -147,7 +147,7 @@ app.post("/users/add", (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/api/users/add",
+    url: "https://novo-rumo-api.herokuapp.com/api/users/add",
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -168,7 +168,7 @@ app.get("/users/edit/:id", (req, res) => {
 
   $.ajax({
     type: "GET",
-    url: "http://localhost:8000/api/users/show/" + req.params.id,
+    url: "https://novo-rumo-api.herokuapp.com/api/users/show/" + req.params.id,
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -183,7 +183,7 @@ app.post("/users/edit/:id", (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/api/users/edit/" + req.params.id,
+    url: "https://novo-rumo-api.herokuapp.com/api/users/edit/" + req.params.id,
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -206,7 +206,7 @@ app.post("/users/delete/:id", (req, res) => {
 
   $.ajax({
     type: "DELETE",
-    url: "http://localhost:8000/api/users/delete/" + req.params.id,
+    url: "https://novo-rumo-api.herokuapp.com/api/users/delete/" + req.params.id,
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -238,7 +238,7 @@ app.get("/visits", (req, res) => {
 
   $.ajax({
     type: "GET",
-    url: "http://localhost:8000/api/visits?page=" + page + search,
+    url: "https://novo-rumo-api.herokuapp.com/api/visits?page=" + page + search,
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -254,6 +254,128 @@ app.get("/visits", (req, res) => {
     },
     error: function (error) {
       return res.redirect("/login?error=Unauthorized");
+    },
+  });
+});
+
+//Owners
+app.get("/owners", (req, res) => {
+
+  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NTE2NjU2LCJleHAiOjE2Njc1MzgyNTYsIm5iZiI6MTY2NzUxNjY1NiwianRpIjoiY0Nsem5ZNGRaUU1LZXVLZiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.QTF6UHCaaadOQua-tL8tKToVXQfNhOqm4RCFB-gcFWU";
+
+  let success_message = "";
+
+  if (req.session.success_message) {
+    success_message = req.session.success_message;
+    delete req.session.success_message;
+  }
+
+  let page = req.query.page || 1;
+  let search = req.query.search ? "&search=" + req.query.search : "";
+
+  $.ajax({
+    type: "GET",
+    url: "https://novo-rumo-api.herokuapp.com/api/owners?page=" + page + search,
+    headers: {
+      'Authorization': 'bearer ' + req.session.token
+    },
+    success: function (data) {
+      console.log(data.users)
+      return res.render("owners/list.html",{
+        owners: data.users,
+        message: success_message,
+        page: data.page,
+        last_page: data.last_page,
+        total: data.total,
+        search: data.search
+      });
+    },
+    error: function (error) {
+      return res.redirect("/login?error=Unauthorized");
+    },
+  });
+});
+
+app.get("/owners/add", (req, res) => {
+  res.render("owners/add.html");
+});
+
+app.post("/owners/add", (req, res) => {
+
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjY5NjA1ODMsImV4cCI6MTY2Njk4MjE4MywibmJmIjoxNjY2OTYwNTgzLCJqdGkiOiJlSVpidUowOWwzYUVwWE5UIiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T9NWr14eqtF1tdHcLBcbA0ZXQij-lwdjY4N008wXSK0";
+
+  $.ajax({
+    type: "POST",
+    url: "https://novo-rumo-api.herokuapp.com/api/owners/add",
+    headers: {
+      'Authorization': 'bearer ' + req.session.token
+    },
+    data: req.body,
+    success: function (data) {
+      req.session.success_message = "Servidor criado com sucesso!"
+      return res.redirect('/owners');
+    },
+    error: function (error) {
+      console.log(error);
+      return res.render('users/add.html', { 'request_body': req.body, 'error': error.responseJSON.error })
+    },
+  });
+});
+
+app.get("/owners/edit/:id", (req, res) => {
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjcxNjgyMzEsImV4cCI6MTY2NzE4OTgzMSwibmJmIjoxNjY3MTY4MjMxLCJqdGkiOiI5MkVMMjZSOW5MSE1UR2xLIiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.omwW3-31UZ40SvTF3-1rgmUc1JqKHIOOsmS78Z8vZEM";
+
+  $.ajax({
+    type: "GET",
+    url: "https://novo-rumo-api.herokuapp.com/api/owners/show/" + req.params.id,
+    headers: {
+      'Authorization': 'bearer ' + req.session.token
+    },
+    success: function (data) {
+      res.render("owners/edit.html", { 'request_body': data.user });
+    },
+  });
+});
+
+app.post("/owners/edit/:id", (req, res) => {
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjcxNjgyMzEsImV4cCI6MTY2NzE4OTgzMSwibmJmIjoxNjY3MTY4MjMxLCJqdGkiOiI5MkVMMjZSOW5MSE1UR2xLIiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.omwW3-31UZ40SvTF3-1rgmUc1JqKHIOOsmS78Z8vZEM";
+
+  $.ajax({
+    type: "POST",
+    url: "https://novo-rumo-api.herokuapp.com/api/owners/edit/" + req.params.id,
+    headers: {
+      'Authorization': 'bearer ' + req.session.token
+    },
+    data: req.body,
+    success: function (data) {
+      console.log(data);
+      req.session.success_message = "Servidor alterado com sucesso!"
+      return res.redirect('/owners');
+    },
+    error: function (error) {
+      console.log(error);
+      req.body._id = req.params.id;
+      return res.render('owners/edit.html', { 'request_body': req.body, 'error': error.responseJSON.error })
+    },
+  });
+});
+
+app.post("/owners/delete/:id", (req, res) => {
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjcxNjgyMzEsImV4cCI6MTY2NzE4OTgzMSwibmJmIjoxNjY3MTY4MjMxLCJqdGkiOiI5MkVMMjZSOW5MSE1UR2xLIiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.omwW3-31UZ40SvTF3-1rgmUc1JqKHIOOsmS78Z8vZEM";
+
+  $.ajax({
+    type: "DELETE",
+    url: "https://novo-rumo-api.herokuapp.com/api/owners/delete/" + req.params.id,
+    headers: {
+      'Authorization': 'bearer ' + req.session.token
+    },
+    success: function (data) {
+      console.log(data);
+      return res.send(true);
+    },
+    error: function (error) {
+      console.log(error);
+      return res.send(false);
     },
   });
 });
