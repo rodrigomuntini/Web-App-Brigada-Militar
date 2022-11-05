@@ -1,7 +1,7 @@
 {% extends "admin-base.html" %}
 
 {% block title %}
-Visitas
+Tipos de Propriedades
 {% endblock %}
 
 {% block header %}
@@ -17,49 +17,35 @@ Visitas
 {% endblock %}
 
 {% block content %}
-<h1 style="float: left; margin-bottom: 3%;">Visitas à Propriedades</h1>
-<a href="/visits/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Visita</a>
+<h1 style="float: left; margin-bottom: 3%;">Tipos de Propriedades</h1>
+<a href="/property-types/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Tipo</a>
 
 <div style="clear: both;"></div>
 
-<!-- <label for="input-search" style="margin-bottom: 0.5%;">Nome ou E-mail</label>
+<label for="input-search" style="margin-bottom: 0.5%;">Nome</label>
 
 <div style="clear: both;"></div>
 
 <div class="form-group mb-3" style="float: left; width: 80%; margin-right: 2%;">
-    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. joao@gmail.com">
+    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. Chácara">
 </div>
-<button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button> -->
+<button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button>
 
 <table class="table table-stripe table-bordered table-hover">
     <thead>
-        <th>Local</th>
-        <th>Servidores</th>
-        <th>Data</th>
+        <th>Nome</th>
         <th>Ações</th>
     </thead>
     <tbody>
-        {% for visit in visits %}
+        {% for property_type in property_types %}
         <tr>
-            <td>{{ visit.property.code }}</td>
-            <td>
-                <ul>
-                    {% for user in visit.users %}
-                        {% if user.name != null %}
-                            <li>{{user.name}}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </td>
-            <td class="visit-date">
-                {{visit.date}}
-            </td>
+            <td>{{ property_type.name }}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
                     <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
-                    <a href="/users/edit/{{ user._id }}" class="btn btn-primary btn-block"
+                    <a href="/property-types/edit/{{ property_type._id }}" class="btn btn-primary btn-block"
                         style="width: 30%; margin-right: 3%;">Alterar</a>
-                    <a href="#" onclick="confirmDeletion('{{ user._id }}');" class="btn btn-danger btn-block"
+                    <a href="#" onclick="confirmDeletion('{{ property_type._id }}');" class="btn btn-danger btn-block"
                         style="width: 30%;">Apagar</a>
                 </div>
             </td>
@@ -76,19 +62,19 @@ Visitas
     <ul class="pagination">
 
     {% if (page != 1) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
+        <li class="page-item"><a class="page-link" href="/property-types?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
     {% endif %}
 
     {% for i in range((page|int - 2), (page|int + 3)) -%}
         {% if (i == page) %}
-            <li class="page-item active"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item active"><a class="page-link" href="/property-types?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% elif (i > 0 and i <= last_page) %}
-            <li class="page-item"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" href="/property-types?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% endif %}
     {%- endfor %}
 
     {% if (page < last_page) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
+        <li class="page-item"><a class="page-link" href="/property-types?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
     {% endif %}
     </ul>
 </nav>
@@ -101,31 +87,12 @@ Visitas
         if ("{{message}}" != "") {
             toastr["success"]("{{ message }}", "Sucesso!");
         }
-
-        console.log($('.visit-date'));
-        var visitDates = $('.visit-date');
-
-        visitDates.each((index) => {
-            let dateInt = Date.parse(visitDates[index].innerText);
-            
-            let date = new Date(dateInt);
-
-            let dateFormat = date.toLocaleDateString("pt-BR", {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-                hour:"numeric",
-                minute: "numeric"
-            });
-
-            visitDates[index].innerText = dateFormat;
-        })
     })
 
     const search = () => {
         let searchText = $('#input-search').val() || "";
 
-        window.location.href = "/users?page=1&search=" + searchText;
+        window.location.href = "/property-types?page=1&search=" + searchText;
     }
 
     const confirmDeletion = (id) => {
@@ -150,20 +117,20 @@ Visitas
                 //Delete info
                 $.ajax({
                     type: "POST",
-                    url: "/users/delete/" + id,
+                    url: "/property-types/delete/" + id,
                     success: function (data) {
                         if (data) {
-                            window.location.href = "/users";
+                            window.location.href = "/property-types";
 
                             swalWithBootstrapButtons.fire(
                                 'Apagado!',
-                                'Servidor apagado com sucesso',
+                                'Tipo de Propriedade apagado com sucesso',
                                 'success'
                             );
                         } else {
                             swalWithBootstrapButtons.fire(
                                 'Erro!',
-                                'Houve um erro ao deletar o Servidor. Tente novamente!',
+                                'Houve um erro ao deletar o Tipo de Propriedade. Tente novamente!',
                                 'error'
                             )
                         }
@@ -178,7 +145,7 @@ Visitas
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado!',
-                    'Servidor não foi apagado',
+                    'Tipo de Propriedade não foi apagado',
                     'error'
                 )
             }

@@ -1,0 +1,38 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Adicionar Veículo
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h3>Adicionar Veículo</h3>
+
+<form action="/vehicles/add" method="post">
+    <div class="form-group mb-3">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="brand">Marca</label>
+        <input type="brand" name="brand" id="brand" class="form-control" required value="{{ request_body.brand }}">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-success">
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% if error %}
+<script>
+    $(document).ready(() => {
+        toastr["error"]("{{ error }}", "Erro!");
+    })
+</script>
+{% endif %}
+{% endblock %}

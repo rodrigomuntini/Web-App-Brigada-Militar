@@ -8,6 +8,10 @@ const $ = require("jquery")(window);
 var session = require('express-session');
 var auth = require('./middleware/auth');
 
+var vehiclesRouter = require('./routes/vehicles');
+var agriculturalMachinesRouter = require ('./routes/agricultural_machines');
+var propertyTypesRouter = require ('./routes/property_types');
+
 // SERVER CONFIGURATION
 var port = process.env.PORT || 3000;
 
@@ -224,7 +228,7 @@ app.post("/users/delete/:id", (req, res) => {
 // Visits
 app.get("/visits", (req, res) => {
 
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2Njc0OTc2NzYsImV4cCI6MTY2NzUxOTI3NiwibmJmIjoxNjY3NDk3Njc2LCJqdGkiOiJWUFhIZHBSaVZpR2RkYUE0Iiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.kylvyuj5QAIeoLafYMxL1bi5UBWgUaRUHA108K0z6rI";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2Njc0OTc2NzYsImV4cCI6MTY2NzUxOTI3NiwibmJmIjoxNjY3NDk3Njc2LCJqdGkiOiJWUFhIZHBSaVZpR2RkYUE0Iiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.kylvyuj5QAIeoLafYMxL1bi5UBWgUaRUHA108K0z6rI";
 
   let success_message = "";
 
@@ -261,7 +265,7 @@ app.get("/visits", (req, res) => {
 //Owners
 app.get("/owners", (req, res) => {
 
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NTE2NjU2LCJleHAiOjE2Njc1MzgyNTYsIm5iZiI6MTY2NzUxNjY1NiwianRpIjoiY0Nsem5ZNGRaUU1LZXVLZiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.QTF6UHCaaadOQua-tL8tKToVXQfNhOqm4RCFB-gcFWU";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NTE2NjU2LCJleHAiOjE2Njc1MzgyNTYsIm5iZiI6MTY2NzUxNjY1NiwianRpIjoiY0Nsem5ZNGRaUU1LZXVLZiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.QTF6UHCaaadOQua-tL8tKToVXQfNhOqm4RCFB-gcFWU";
 
   let success_message = "";
 
@@ -379,3 +383,7 @@ app.post("/owners/delete/:id", (req, res) => {
     },
   });
 });
+
+app.use('/vehicles', vehiclesRouter);
+app.use('/agricultural-machines', agriculturalMachinesRouter);
+app.use('/property-types', propertyTypesRouter);

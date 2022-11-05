@@ -1,0 +1,33 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Máquina Agrícola
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h3>Alterar Máquina Agrícola</h3>
+
+<form action="/agricultural-machines/edit/{{ request_body._id }}" method="post">
+    <div class="form-group mb-3">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-success">
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% if error %}
+<script>
+    $(document).ready(() => {
+        toastr["error"]("{{ error }}", "Erro!");
+    })
+</script>
+{% endif %}
+{% endblock %}
