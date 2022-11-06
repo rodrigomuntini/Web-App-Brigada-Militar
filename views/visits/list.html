@@ -14,6 +14,8 @@ Visitas
         margin-right: 10px;
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.default.css">
 {% endblock %}
 
 {% block content %}
@@ -22,14 +24,23 @@ Visitas
 
 <div style="clear: both;"></div>
 
-<!-- <label for="input-search" style="margin-bottom: 0.5%;">Nome ou E-mail</label>
+<form method="get" action="/visits">
+    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="input-search" style="margin-bottom: 0.5%;">Servidor</label>
+        <select name="u" id="select-search">
+            <option value="" selected></option>
+            {% for user in users %}
+                <option value="{{ user._id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="p" style="margin-bottom: 0.5%;">Código de Propriedade</label>
+        <input type="text" id="input-search" name="p" class="form-control" style="margin-bottom: 2%; height: 36.18px;" placeholder="Ex. ERE000">
+    </div>
 
-<div style="clear: both;"></div>
-
-<div class="form-group mb-3" style="float: left; width: 80%; margin-right: 2%;">
-    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. joao@gmail.com">
-</div>
-<button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button> -->
+    <button type="submit" class="btn btn-primary" style="float: right; height: 36.18px; width: 18%; margin-top: 2%;">Pesquisar</button>
+</form>
 
 <table class="table table-stripe table-bordered table-hover">
     <thead>
@@ -57,9 +68,9 @@ Visitas
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
                     <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
-                    <a href="/users/edit/{{ user._id }}" class="btn btn-primary btn-block"
+                    <a href="/visits/edit/{{ visit._id }}" class="btn btn-primary btn-block"
                         style="width: 30%; margin-right: 3%;">Alterar</a>
-                    <a href="#" onclick="confirmDeletion('{{ user._id }}');" class="btn btn-danger btn-block"
+                    <a href="#" onclick="confirmDeletion('{{ visit._id }}');" class="btn btn-danger btn-block"
                         style="width: 30%;">Apagar</a>
                 </div>
             </td>
@@ -76,19 +87,19 @@ Visitas
     <ul class="pagination">
 
     {% if (page != 1) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
+        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
     {% endif %}
 
     {% for i in range((page|int - 2), (page|int + 3)) -%}
         {% if (i == page) %}
-            <li class="page-item active"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item active"><a class="page-link" href="/visits?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% elif (i > 0 and i <= last_page) %}
-            <li class="page-item"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" href="/visits?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% endif %}
     {%- endfor %}
 
     {% if (page < last_page) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
+        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
     {% endif %}
     </ul>
 </nav>
@@ -122,11 +133,7 @@ Visitas
         })
     })
 
-    const search = () => {
-        let searchText = $('#input-search').val() || "";
-
-        window.location.href = "/users?page=1&search=" + searchText;
-    }
+    let selectize = $('#select-search').selectize();
 
     const confirmDeletion = (id) => {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -150,20 +157,20 @@ Visitas
                 //Delete info
                 $.ajax({
                     type: "POST",
-                    url: "/users/delete/" + id,
+                    url: "/visits/delete/" + id,
                     success: function (data) {
                         if (data) {
-                            window.location.href = "/users";
+                            window.location.href = "/visits";
 
                             swalWithBootstrapButtons.fire(
                                 'Apagado!',
-                                'Servidor apagado com sucesso',
+                                'Visita apagada com sucesso',
                                 'success'
                             );
                         } else {
                             swalWithBootstrapButtons.fire(
                                 'Erro!',
-                                'Houve um erro ao deletar o Servidor. Tente novamente!',
+                                'Houve um erro ao deletar a Visita. Tente novamente!',
                                 'error'
                             )
                         }
@@ -178,7 +185,7 @@ Visitas
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado!',
-                    'Servidor não foi apagado',
+                    'Visita não foi apagada',
                     'error'
                 )
             }

@@ -1,36 +1,73 @@
 {% extends "admin-base.html" %}
 
 {% block title %}
-Servidores
+Alterar Visita
 {% endblock %}
 
 {% block header %}
-<script>
-    function genPsswd() {
-        let password = (Math.random() + 1).toString(36).substring(2, 20);
-
-        return $('#password').val(password);
-    }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.default.css">
 {% endblock %}
 
 {% block content %}
-<h3>Alterar Servidor</h3>
+<h3>Alterar Visita</h3>
 
-<form action="/users/edit/{{ request_body._id }}" method="post">
+<form action="/visits/add" method="post">
+    <label for="users">Guarnição</label>
+    <div class="wrapper-users">
+        {% if request_body.users %}
+            {% set i = 0 %}
+            {% for request_body_user in request_body.users %}
+                {% set i = i|int + 1 %}
+                <div class="garrison-block">
+                    <div class="form-group mb-3" style="width: 95%; float: left;">
+                        <select name="users" class="select-users" id="select-users-{{i}}">
+                            <option value="" selected></option>
+                            {% for user in users %}
+                                <option value="{{ user._id }}">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="button" style="float: right;" id="remove-1" class="btn btn-danger remove_field"><i class="fa-sharp fa-solid fa-xmark remove_field" id="remove-1"></i></button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="garrison-block">
+                <div class="form-group mb-3" style="width: 95%; float: left;">
+                    <select name="users" class="select-users" id="select-users-1">
+                        <option value="" selected></option>
+                        {% for user in users %}
+                            <option value="{{ user._id }}">{{ user.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="button" style="float: right;" id="remove-1" class="btn btn-danger remove_field"><i class="fa-sharp fa-solid fa-xmark remove_field" id="remove-1"></i></button>
+            </div>
+        {% endif %}
+    </div>
+
+    <button type="button" class="add-button btn btn-primary" style="float: right;">Adicionar Servidor</button>
+
+    <div style="clear: both"></div>
+
     <div class="form-group mb-3">
-        <label for="name">Nome</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+        <label for="input-search" style="margin-bottom: 0.5%;">Propriedade</label>
+        <select name="property" id="select-property">
+            <option value="" selected></option>
+            {% for property in properties %}
+                <option value="{{ property._id }}">{{ property.code }}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <div class="form-group mb-3">
-        <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" class="form-control" required value="{{ request_body.email }}">
+        <label for="car">Viatura Utilizada</label>
+        <input type="text" name="car" id="car" class="form-control" required value="{{ request_body.car }}">
     </div>
+
     <div class="form-group mb-3">
-        <label for="email">Senha</label>
-        <input type="text" name="password" id="password" class="form-control" required>
-        <a href="#" onclick="genPsswd()">Gerar Senha Aleatória</a>
+        <label for="date">Data da Visita</label>
+        <input type="datetime-local" name="date" id="date" class="form-control" required value="{{ request_body.date }}">
     </div>
 
     <div class="form-group">
@@ -40,11 +77,63 @@ Servidores
 {% endblock %}
 
 {% block script %}
-{% if error %}
-<script>
-    $(document).ready(() => {
-        toastr["error"]("{{ error }}", "Erro!");
-    })
-</script>
-{% endif %}
+    {% if error %}
+    <script>
+        $(document).ready(() => {
+            toastr["error"]("{{ error }}", "Erro!");
+        })
+    </script>
+    {% endif %}
+    <script>
+        {% if request_body.users %}
+            {% set i = 0 %}
+            {% for request_body_user in request_body.users %}
+                {% set i = i|int + 1 %}
+                $('#select-users-{{i}}').selectize();
+            {% endfor %}
+        {% else %}
+            $('#select-users-1').selectize();
+        {% endif %}
+        var $selectP = $('#select-property').selectize();
+
+        $(document).ready(() => {
+            var wrapper_users = $('.wrapper-users');
+            var add_button = $('.add-button');
+            var x = 1;
+
+            $(add_button).click((e) => {
+                x++;
+                
+                var newField = '<div class="garrison-block"><div class="form-group mb-3" style="width: 95%; float: left;"><select name="users" class="select-users" id="select-users-' + x + '"><option value="" selected></option>{% for user in users %}<option value="{{ user._id }}">{{ user.name }}</option>{% endfor %}</select></div><button type="button" style="float: right;" id="remove-' + x + '" class="btn btn-danger remove_field"><i class="fa-sharp fa-solid fa-xmark remove_field" id="remove-' + x + '"></i></button></div>';
+
+                $(wrapper_users).append(newField);
+                $('#select-users-' + x).selectize();
+            })
+
+            $(wrapper_users).on("click", ".remove_field", (e) => {
+                e.preventDefault();
+                $("#" + e.target.id).parent().remove();
+            });
+        })
+    </script>
+    {% if request_body.property %}
+        <script>
+            $(document).ready(() => {
+                var selectizeP = $selectP[0].selectize;
+                selectizeP.setValue("{{request_body.property}}", false);
+            });
+        </script>
+    {% endif %}
+
+    {% if request_body.users %}
+        <script>
+            {% set i = 0 %}
+            {% for request_body_user in request_body.users %}
+                {% set i = i|int + 1 %}
+                    $select = $('#select-users-{{i}}').selectize();
+                    var selectize = $select[0].selectize;
+                    selectize.setValue("{{request_body_user}}", false);
+            {% endfor %}
+        </script>
+    {% endif %}
 {% endblock %}

@@ -11,6 +11,7 @@ var auth = require('./middleware/auth');
 var vehiclesRouter = require('./routes/vehicles');
 var agriculturalMachinesRouter = require ('./routes/agricultural_machines');
 var propertyTypesRouter = require ('./routes/property_types');
+var visitsRouter = require('./routes/visits');
 
 // SERVER CONFIGURATION
 var port = process.env.PORT || 3000;
@@ -225,43 +226,6 @@ app.post("/users/delete/:id", (req, res) => {
   });
 });
 
-// Visits
-app.get("/visits", (req, res) => {
-
-  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2Njc0OTc2NzYsImV4cCI6MTY2NzUxOTI3NiwibmJmIjoxNjY3NDk3Njc2LCJqdGkiOiJWUFhIZHBSaVZpR2RkYUE0Iiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.kylvyuj5QAIeoLafYMxL1bi5UBWgUaRUHA108K0z6rI";
-
-  let success_message = "";
-
-  if (req.session.success_message) {
-    success_message = req.session.success_message;
-    delete req.session.success_message;
-  }
-
-  let page = req.query.page || 1;
-  let search = req.query.search ? "&search=" + req.query.search : "";
-
-  $.ajax({
-    type: "GET",
-    url: "https://novo-rumo-api.herokuapp.com/api/visits?page=" + page + search,
-    headers: {
-      'Authorization': 'bearer ' + req.session.token
-    },
-    success: function (data) {
-      return res.render("visits/list.html",{
-        visits: data.visits,
-        message: success_message,
-        page: data.page,
-        last_page: data.last_page,
-        total: data.total,
-        search: data.search
-      });
-    },
-    error: function (error) {
-      return res.redirect("/login?error=Unauthorized");
-    },
-  });
-});
-
 //Owners
 app.get("/owners", (req, res) => {
 
@@ -387,3 +351,4 @@ app.post("/owners/delete/:id", (req, res) => {
 app.use('/vehicles', vehiclesRouter);
 app.use('/agricultural-machines', agriculturalMachinesRouter);
 app.use('/property-types', propertyTypesRouter);
+app.use('/visits', visitsRouter);
