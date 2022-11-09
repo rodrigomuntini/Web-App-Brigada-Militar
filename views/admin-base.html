@@ -41,47 +41,55 @@
                         Páginas
                     </li>
 
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item {% block properties_active %}{% endblock %}">
+                        <a class="sidebar-link" href="/properties">
+                            <i class="fa-solid fa-flag"></i>
+                            <span class="align-middle">Propriedades</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item {% block owners_active %}{% endblock %}">
+                        <a class="sidebar-link" href="/owners">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="align-middle">Proprietários</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item {% block visits_active %}{% endblock %}">
+                        <a class="sidebar-link" href="/visits">
+                            <i class="fa-solid fa-house-flag"></i>
+                            <span class="align-middle">Visitas à Propriedades</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item {% block users_active %}{% endblock %}">
                         <a class="sidebar-link" href="/users">
                             <i class="fa-solid fa-people-group"></i>
                             <span class="align-middle">Servidores</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/visits">
-                            <i class="fa-solid fa-people-group"></i>
-                            <span class="align-middle">Visitas à Propriedades</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/owners">
-                            <i class="fa-solid fa-people-group"></i>
-                            <span class="align-middle">Proprietarios</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item {% block vehicles_active %}{% endblock %}">
                         <a class="sidebar-link" href="/vehicles">
-                            <i class="fa-solid fa-people-group"></i>
+                            <i class="fa-solid fa-car"></i>
                             <span class="align-middle">Veículos</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item {% block agricultural_machines_active %}{% endblock %}">
                         <a class="sidebar-link" href="/agricultural-machines">
-                            <i class="fa-solid fa-people-group"></i>
+                            <i class="fa-solid fa-tractor"></i>
                             <span class="align-middle">Máquinas Agrícolas</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item {% block property_types_active %}{% endblock %}">
                         <a class="sidebar-link" href="/property-types">
-                            <i class="fa-solid fa-people-group"></i>
+                            <i class="fa-solid fa-mountain-sun"></i>
                             <span class="align-middle">Tipos de Propriedades</span>
                         </a>
                     </li>
+
                 </ul>
             </div>
         </nav>

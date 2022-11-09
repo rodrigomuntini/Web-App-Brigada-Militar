@@ -42,11 +42,10 @@ Tipos de Propriedades
             <td>{{ property_type.name }}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
-                    <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
                     <a href="/property-types/edit/{{ property_type._id }}" class="btn btn-primary btn-block"
-                        style="width: 30%; margin-right: 3%;">Alterar</a>
+                        style="width: 45%; margin-right: 3%;">Alterar</a>
                     <a href="#" onclick="confirmDeletion('{{ property_type._id }}');" class="btn btn-danger btn-block"
-                        style="width: 30%;">Apagar</a>
+                        style="width: 45%;">Apagar</a>
                 </div>
             </td>
         </tr>
@@ -153,4 +152,8 @@ Tipos de Propriedades
         })
     }
 </script>
+{% endblock %}
+
+{% block property_types_active %}
+active
 {% endblock %}

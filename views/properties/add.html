@@ -1,0 +1,293 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Adicionar Propriedade
+{% endblock %}
+
+{% block header %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.default.css">
+{% endblock %}
+
+{% block content %}
+<h3>Adicionar Propriedade</h3>
+
+<form action="/properties/add" method="post">
+
+    <div class="form-group mb-3">
+        <label for="select-owner" style="margin-bottom: 0.5%;">Propritetário</label>
+        <select name="owner" id="select-owner">
+            <option value="" selected></option>
+            {% for owner in owners %}
+                <option value="{{ owner._id }}">{{owner.firstname}} {{owner.lastname}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="select-property-type" style="margin-bottom: 0.5%;">Tipo de Propriedade</label>
+        <select name="property_type" id="select-property-type">
+            <option value="" selected></option>
+            {% for property_type in property_types %}
+                <option value="{{ property_type._id }}">{{property_type.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="code">Código</label>
+        <input type="text" name="code" id="code" class="form-control" required value="{{ request_body.code }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="latitude">Latitude</label>
+        <input type="text" name="latitude" id="latitude" class="form-control" required value="{{ request_body.latitude }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="longitude">Longitude</label>
+        <input type="text" name="longitude" id="longitude" class="form-control" required value="{{ request_body.longitude }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="name">Quantidade de Pessoas</label>
+        <input type="text" name="qty_people" id="qty_people" class="form-control" required value="{{ request_body.qty_people }}">
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_cams" id="has_cams" class="form-check-input" {% if request_body.has_cams %}value="{{ request_body.has_cams }}" checked{% endif %}>
+        <label class="form-check-label" for="has_cams">Possui Câmeras</label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_phone_signal" id="has_phone_signal" class="form-check-input" {% if request_body.has_phone_signal %}value="{{ request_body.has_phone_signal }}" checked{% endif %}>
+        <label class="form-check-label" for="has_phone_signal">Possui Sinal Telefônico</label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_internet" id="has_internet" class="form-check-input" {% if request_body.has_internet %}value="{{ request_body.has_internet }}" checked{% endif %}>
+        <label class="form-check-label" for="has_internet">Possui Internet</label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_gun" id="has_gun" class="form-check-input" {% if request_body.has_gun %}value="{{ request_body.has_gun }}" checked{% endif %}>
+        <label class="form-check-label" for="has_gun">Possui arma de fogo</label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_gun_local" id="has_gun_local" class="form-check-input" {% if request_body.has_gun_local %}value="{{ request_body.has_gun_local }}" checked{% endif %}>
+        <label class="form-check-label" for="has_gun_local">Possui local adequado para armazenar arma de fogo</label>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="name">Descrição do local de armazenamento da arma de fogo</label>
+        <textarea name="gun_local_description" id="gun_local_description" class="form-control">{{ request_body.gun_local_description }}</textarea>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="name">Quantidade de Defensivos Agrícolas</label>
+        <input type="number" name="qty_agricultural_defensive" id="qty_agricultural_defensive" class="form-control" required value="{{ request_body.qty_agricultural_defensive }}">
+    </div>
+
+    <label for="vehicles">Veículos</label>
+    <div class="wrapper-vehicles">
+        {% if request_body.vehicles %}
+            {% set i = 0 %}
+            {% for request_body_vehicle in request_body.vehicles %}
+                {% set i = i|int + 1 %}
+                <div class="garrison-block">
+                    <div class="form-group mb-3" style="width: 95%; float: left;">
+                        <select name="vehicles" class="select-vehicles" id="select-vehicles-{{i}}">
+                            <option value="" selected></option>
+                            {% for vehicle in vehicles %}
+                                <option value="{{ vehicle._id }}">{{vehicle.name}} - {{vehicle.brand}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="button" style="float: right;" id="remove-vehicle-{{i}}" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-{{i}}"></i></button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="garrison-block">
+                <div class="form-group mb-3" style="width: 95%; float: left;">
+                    <select name="vehicles" class="select-vehicles" id="select-vehicles-1">
+                        <option value="" selected></option>
+                        {% for vehicle in vehicles %}
+                            <option value="{{ vehicle._id }}">{{vehicle.name}} - {{vehicle.brand}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="button" style="float: right;" id="remove-vehicle-1" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-1"></i></button>
+            </div>
+        {% endif %}
+    </div>
+
+    <button type="button" class="add-button-vehicles btn btn-primary" style="float: right;">Adicionar Veículo</button>
+
+    <div style="clear: both;"></div>
+
+    <label for="agricultural-machines">Máquinas Agrícolas</label>
+    <div class="wrapper-agricultural-machines">
+        {% if request_body.agricultural_machines %}
+            {% set i = 0 %}
+            {% for request_body_agricultural_machine in request_body.agricultural_machines %}
+                {% set i = i|int + 1 %}
+                <div class="garrison-block">
+                    <div class="form-group mb-3" style="width: 95%; float: left;">
+                        <select name="agricultural_machines" class="select-agricultural_machine" id="select-agricultural-machines-{{i}}">
+                            <option value="" selected></option>
+                            {% for agricultural_machine in agricultural_machines %}
+                                <option value="{{ agricultural_machine._id }}">{{agricultural_machine.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="button" style="float: right;" id="remove-agricultural-machines-{{i}}" class="btn btn-danger remove_agricultural_machine_field"><i class="fa-sharp fa-solid fa-xmark remove_agricultural_machine_field" id="remove-agricultural-machines-{{i}}"></i></button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="garrison-block">
+                <div class="form-group mb-3" style="width: 95%; float: left;">
+                    <select name="agricultural_machines" class="select-agricultural-machines" id="select-agricultural-machines-1">
+                        <option value="" selected></option>
+                        {% for agricultural_machine in agricultural_machines %}
+                            <option value="{{ agricultural_machine._id }}">{{agricultural_machine.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="button" style="float: right;" id="remove-agricultural-machine-1" class="btn btn-danger remove_agricultural_machine_field"><i class="fa-sharp fa-solid fa-xmark remove_agricultural_machine_field" id="remove-agricultural-machine-1"></i></button>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="name">Observações</label>
+        <textarea name="observations" id="observations" class="form-control">{{ request_body.observations }}</textarea>
+    </div>
+
+    <button type="button" class="add-button-agricultural-machines btn btn-primary" style="float: right;">Adicionar Máquina</button>
+
+    <div style="clear: both"></div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-success">
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+    {% if error %}
+    <script>
+        $(document).ready(() => {
+            toastr["error"]("{{ error }}", "Erro!");
+        })
+    </script>
+    {% endif %}
+    <script>
+        {% if request_body.vehicles %}
+            {% set i = 0 %}
+            {% for request_body_vehicle in request_body.vehicles %}
+                {% set i = i|int + 1 %}
+                $('#select-vehicles-{{i}}').selectize();
+            {% endfor %}
+        {% else %}
+            $('#select-vehicles-1').selectize();
+        {% endif %}
+
+
+        {% if request_body.agricultural_machines %}
+            {% set i = 0 %}
+            {% for request_body_agricultural_machines in request_body.agricultural_machines %}
+                {% set i = i|int + 1 %}
+                $('#select-agricultural-machines-{{i}}').selectize();
+            {% endfor %}
+        {% else %}
+            $('#select-agricultural-machines-1').selectize();
+        {% endif %}
+
+        var $selectO = $('#select-owner').selectize();
+        var $selectP = $('#select-property-type').selectize();
+
+        $(document).ready(() => {
+            var wrapper_vehicles = $('.wrapper-vehicles');
+            var add_button_vehicles = $('.add-button-vehicles');
+            var x = 1;
+
+            $(add_button_vehicles).click((e) => {
+                x++;
+                
+                var newField = '<div class="garrison-block"><div class="form-group mb-3" style="width: 95%; float: left;"><select name="vehicles" class="select-vehicles" id="select-vehicles-' + x + '"><option value="" selected></option>{% for vehicle in vehicles %}<option value="{{ vehicle._id }}">{{vehicle.name}} - {{vehicle.brand}}</option>{% endfor %}</select></div><button type="button" style="float: right;" id="remove-vehicle-' + x + '" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-' + x +'"></i></button></div>';
+
+                $(wrapper_vehicles).append(newField);
+                $('#select-vehicles-' + x).selectize();
+            })
+
+            $(wrapper_vehicles).on("click", ".remove_vehicle_field", (e) => {
+                e.preventDefault();
+                $("#" + e.target.id).parent().remove();
+            });
+
+            var wrapper_agricultural_machines = $('.wrapper-agricultural-machines');
+            var add_button_agricultural_machines = $('.add-button-agricultural-machines');
+            var y = 1;
+
+            $(add_button_agricultural_machines).click((e) => {
+                y++;
+                
+                var newField2 = '<div class="garrison-block"><div class="form-group mb-3" style="width: 95%; float: left;"><select name="agricultural_machines" class="select-agricultural-machines" id="select-agricultural-machines-' + y + '"><option value="" selected></option>{% for agricultural_machine in agricultural_machines %}<option value="{{ agricultural_machine._id }}">{{agricultural_machine.name}}</option>{% endfor %}</select></div><button type="button" style="float: right;" id="remove-agricultural-machine-' + y + '" class="btn btn-danger remove_agricultural_machine_field"><i class="fa-sharp fa-solid fa-xmark remove_agricultural_machine_field" id="remove-agricultural-machine-' + y + '"></i></button></div>';
+
+                $(wrapper_agricultural_machines).append(newField2);
+                $('#select-agricultural-machines-' + y).selectize();
+            })
+
+            $(wrapper_agricultural_machines).on("click", ".remove_agricultural_machine_field", (e) => {
+                e.preventDefault();
+                $("#" + e.target.id).parent().remove();
+            });
+        })
+    </script>
+    {% if request_body.owner %}
+        <script>
+            $(document).ready(() => {
+                var selectizeO = $selectO[0].selectize;
+                selectizeO.setValue("{{request_body.owner}}", false);
+            });
+        </script>
+    {% endif %}
+
+    {% if request_body.property_type %}
+        <script>
+            $(document).ready(() => {
+                var selectizeP = $selectP[0].selectize;
+                selectizeP.setValue("{{request_body.property_type}}", false);
+            });
+        </script>
+    {% endif %}
+
+    {% if request_body.vehicles %}
+        <script>
+            {% set i = 0 %}
+            {% for request_body_vehicle in request_body.vehicles %}
+                {% set i = i|int + 1 %}
+                    $select = $('#select-vehicles-{{i}}').selectize();
+                    var selectize = $select[0].selectize;
+                    selectize.setValue("{{request_body_vehicle}}", false);
+            {% endfor %}
+        </script>
+    {% endif %}
+
+    {% if request_body.agricultural_machines %}
+        <script>
+            {% set i = 0 %}
+            {% for request_body_agricultural_machine in request_body.agricultural_machines %}
+                {% set i = i|int + 1 %}
+                    $select2 = $('#select-agricultural-machines-{{i}}').selectize();
+                    var selectize2= $select2[0].selectize;
+                    selectize2.setValue("{{request_body_agricultural_machine}}", false);
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block properties_active %}
+active
+{% endblock %}

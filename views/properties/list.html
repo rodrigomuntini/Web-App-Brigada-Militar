@@ -1,7 +1,7 @@
 {% extends "admin-base.html" %}
 
 {% block title %}
-Servidores
+Propriedades
 {% endblock %}
 
 {% block header %}
@@ -14,48 +14,51 @@ Servidores
         margin-right: 10px;
     }
 </style>
-
-<script>
-    function genPsswd() {
-        let password = (Math.random() + 1).toString(36).substring(2, 20);
-
-        return $('#password').val(password);
-    }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.default.css">
 {% endblock %}
 
 {% block content %}
-<h1 style="float: left; margin-bottom: 3%;">Servidores</h1>
-<a href="/users/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Servidor</a>
+<h1 style="float: left; margin-bottom: 3%;">Propriedades</h1>
+<a href="/properties/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Propriedade</a>
 
 <div style="clear: both;"></div>
 
-<label for="input-search" style="margin-bottom: 0.5%;">Nome ou E-mail</label>
+<form method="get" action="/properties">
+    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="input-search" style="margin-bottom: 0.5%;">Proprietário</label>
+        <select name="o" id="select-search">
+            <option value="" selected></option>
+            {% for owner in owners %}
+                <option value="{{ owner._id }}">{{owner.firstname}} {{owner.lastname}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="c" style="margin-bottom: 0.5%;">Código de Propriedade</label>
+        <input type="text" id="input-search" name="c" class="form-control" style="margin-bottom: 2%; height: 36.18px;" placeholder="Ex. ERE000">
+    </div>
 
-<div style="clear: both;"></div>
-
-<div class="form-group mb-3" style="float: left; width: 80%; margin-right: 2%;">
-    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. joao@gmail.com">
-</div>
-<button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button>
+    <button type="submit" class="btn btn-primary" style="float: right; height: 36.18px; width: 18%; margin-top: 2%;">Pesquisar</button>
+</form>
 
 <table class="table table-stripe table-bordered table-hover">
     <thead>
-        <th>Nome</th>
-        <th>E-mail</th>
+        <th>Código</th>
+        <th>Proprietário</th>
         <th>Ações</th>
     </thead>
     <tbody>
-        {% for user in users %}
+        {% for property in properties %}
         <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
+            <td>{{property.code}}</td>
+            <td>{{property.owner.firstname}} {{property.owner.lastname}}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
-                    <a href="/users/view/{{ user._id }}" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
-                    <a href="/users/edit/{{ user._id }}" class="btn btn-primary btn-block"
+                    <a href="/properties/view/{{ property._id }}" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
+                    <a href="/properties/edit/{{ property._id }}" class="btn btn-primary btn-block"
                         style="width: 30%; margin-right: 3%;">Alterar</a>
-                    <a href="#" onclick="confirmDeletion('{{ user._id }}');" class="btn btn-danger btn-block"
+                    <a href="#" onclick="confirmDeletion('{{ property._id }}');" class="btn btn-danger btn-block"
                         style="width: 30%;">Apagar</a>
                 </div>
             </td>
@@ -72,19 +75,19 @@ Servidores
     <ul class="pagination">
 
     {% if (page != 1) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
+        <li class="page-item"><a class="page-link" href="/properties?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
     {% endif %}
 
     {% for i in range((page|int - 2), (page|int + 3)) -%}
         {% if (i == page) %}
-            <li class="page-item active"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item active"><a class="page-link" href="/properties?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% elif (i > 0 and i <= last_page) %}
-            <li class="page-item"><a class="page-link" href="/users?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" href="/properties?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
         {% endif %}
     {%- endfor %}
 
     {% if (page < last_page) %}
-        <li class="page-item"><a class="page-link" href="/users?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
+        <li class="page-item"><a class="page-link" href="/properties?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
     {% endif %}
     </ul>
 </nav>
@@ -99,11 +102,7 @@ Servidores
         }
     })
 
-    const search = () => {
-        let searchText = $('#input-search').val() || "";
-
-        window.location.href = "/users?page=1&search=" + searchText;
-    }
+    let selectize = $('#select-search').selectize();
 
     const confirmDeletion = (id) => {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -127,20 +126,20 @@ Servidores
                 //Delete info
                 $.ajax({
                     type: "POST",
-                    url: "/users/delete/" + id,
+                    url: "/properties/delete/" + id,
                     success: function (data) {
                         if (data) {
-                            window.location.href = "/users";
+                            window.location.href = "/properties";
 
                             swalWithBootstrapButtons.fire(
                                 'Apagado!',
-                                'Servidor apagado com sucesso',
+                                'Propriedade apagada com sucesso',
                                 'success'
                             );
                         } else {
                             swalWithBootstrapButtons.fire(
                                 'Erro!',
-                                'Houve um erro ao deletar o Servidor. Tente novamente!',
+                                'Houve um erro ao deletar a Propriedade. Tente novamente!',
                                 'error'
                             )
                         }
@@ -155,7 +154,7 @@ Servidores
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado!',
-                    'Servidor não foi apagado',
+                    'Propriedade não foi apagada',
                     'error'
                 )
             }
@@ -165,6 +164,6 @@ Servidores
 </script>
 {% endblock %}
 
-{% block users_active %}
+{% block properties_active %}
 active
 {% endblock %}

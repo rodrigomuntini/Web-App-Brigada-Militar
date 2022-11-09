@@ -42,11 +42,10 @@ Máquinas Agrícolas
             <td>{{ agricultural_machine.name }}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
-                    <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
                     <a href="/agricultural-machines/edit/{{ agricultural_machine._id }}" class="btn btn-primary btn-block"
-                        style="width: 30%; margin-right: 3%;">Alterar</a>
+                        style="width: 45%; margin-right: 3%;">Alterar</a>
                     <a href="#" onclick="confirmDeletion('{{ agricultural_machine._id }}');" class="btn btn-danger btn-block"
-                        style="width: 30%;">Apagar</a>
+                        style="width: 45%;">Apagar</a>
                 </div>
             </td>
         </tr>
@@ -153,4 +152,8 @@ Máquinas Agrícolas
         })
     }
 </script>
+{% endblock %}
+
+{% block agricultural_machines_active %}
+active
 {% endblock %}

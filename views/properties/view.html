@@ -1,0 +1,140 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Ver Servidor - {{ user.name }}
+{% endblock %}
+
+{% block header %}
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+        let map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -27.685046015067787, lng: -52.277383344605944 }, 
+                zoom: 10,
+            });
+
+            new google.maps.Marker({
+                position: { lat: {{property.latitude}}, lng: {{property.longitude}}},
+                map,
+                title: "{{property.code}}",
+                label: {
+                    text: "{{property.code}}",
+                    color: 'white',
+                }
+            });
+        }
+
+        window.initMap = initMap;
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Sobre a Propriedade</h1>
+
+    <p><strong>Código:</strong> {{property.code}}</p>
+    <p><strong>Proprietário:</strong> {{property.owner.firstname}} {{property.lastname}}</p>
+    <p><strong>CPF:</strong> {{property.owner.cpf}}</p>
+    <p><strong>Telefone 1:</strong> {{property.phone1}}</p>
+    <p><strong>Telefone 2:</strong> {{property.phone2}}</p>
+    <p><strong>Quantidade de Residentes:</strong> {{property.qty_people}}</p>
+    <p><strong>Possui câmeras:</strong> {% if property.has_cams %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui sinal telefônico:</strong> {% if property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui internet:</strong> {% if property.has_internet %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui arma de fogo:</strong> {% if property.has_gun %}Sim{% else %}Não{% endif %}</p>
+    {% if property.has_gun %}
+        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
+        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}Sim{% else %}Não{% endif %}</p>
+    {% endif %}
+    <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
+    <p><strong>Observações:</strong> {{property.observations}}</p>
+
+    <hr>
+
+    <h3>Veículos</h3>
+    {% for vehicle in property.vehicle %}
+        <li>{{vehicle.name}} - {{vehicle.brand}}</li>
+    {% else %}
+        <p>Esta propriedade não possui veículos.</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Máquinas Agrícolas</h3>
+    {% for agricultural_machine in property.agricultural_machines %}
+        <li>{{agricultural_machine.name}}</li>
+    {% else %}
+        <p>Esta propriedade não possui máquinas agrícolas.</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Solicitações</h3>
+    {% for request in property.requests %}
+        <li>{{request.agency}}</li>
+        <hr>
+    {% else %}
+        <p>Esta propriedade não possui nenhuma solicitação.</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Visitas</h3>
+    {% for visit in property.visits %}
+        <p><strong>Data da Visita:</strong> <span class="visit-date">{{visit.date}}</span></p>
+        <p>
+            <strong>Guarnição:</strong>
+            <ul>
+                {% for user in visit.users %}
+                    <li>{{user[0].name}}</li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p><strong>Viatura:</strong> {{visit.car}}</p>
+        <hr>
+    {% else %}
+        <p>Esta propriedade ainda não recebeu visitas</p>
+        <hr>
+    {% endfor %}
+
+    <h3>Localização</h3>
+
+    <div id="map"></div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT2yQkWPQnKknKL1IJHxVAcvV0IaN2N5A&callback=initMap&v=weekly" defer></script>
+
+    {% if property.visits %}
+        <script>
+            console.log($('.visit-date'));
+            var visitDates = $('.visit-date');
+
+            visitDates.each((index) => {
+                let dateInt = Date.parse(visitDates[index].innerText);
+                
+                let date = new Date(dateInt);
+
+                let dateFormat = date.toLocaleDateString("pt-BR", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                    hour:"numeric",
+                    minute: "numeric"
+                });
+
+                visitDates[index].innerText = dateFormat;
+            })
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block properties_active %}
+active
+{% endblock %}

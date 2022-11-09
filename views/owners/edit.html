@@ -1,7 +1,7 @@
 {% extends "admin-base.html" %}
 
 {% block title %}
-Servidores
+Alterar Servidor
 {% endblock %}
 
 {% block header %}
@@ -19,18 +19,33 @@ Servidores
 
 <form action="/owners/edit/{{ request_body._id }}" method="post">
     <div class="form-group mb-3">
-        <label for="name">Nome</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+        <label for="firstname">Primeiro Nome</label>
+        <input type="text" name="firstname" id="firstname" class="form-control" required value="{{ request_body.firstname }}">
     </div>
 
     <div class="form-group mb-3">
-        <label for="name">Endereço</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.adress }}">
+        <label for="lastname">Sobrenome</label>
+        <input type="text" name="lastname" id="lastname" class="form-control" required value="{{ request_body.lastname }}">
     </div>
 
     <div class="form-group mb-3">
-        <label for="name">Telefone 1</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.phone }}">
+        <label for="cpf">CPF</label>
+        <input type="text" name="cpf" id="lastname" class="form-control" required value="{{ request_body.cpf }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="address">Endereço</label>
+        <input type="text" name="address" id="address" class="form-control" required value="{{ request_body.address }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="phone1">Telefone 1</label>
+        <input type="text" name="phone1" id="phone1" class="form-control" required value="{{ request_body.phone1 }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="phone1">Telefone 2</label>
+        <input type="text" name="phone2" id="phone2" class="form-control" required value="{{ request_body.phone2 }}">
     </div>
     
     <div class="form-group">
@@ -47,4 +62,8 @@ Servidores
     })
 </script>
 {% endif %}
+{% endblock %}
+
+{% block owners_active %}
+active
 {% endblock %}

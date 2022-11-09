@@ -8,7 +8,7 @@ const $ = require("jquery")(window);
 
 // Visits
 router.get("/", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3ODg2NjMxLCJleHAiOjE2Njc5MDgyMzEsIm5iZiI6MTY2Nzg4NjYzMSwianRpIjoiZVdkb3FCTHhIWDBjWnJGdyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.P7qB9jVoN81UPwoEYaeGU-JKs7XINnu79DUjSZ6KU74";
 
     let success_message = "";
 
@@ -39,13 +39,14 @@ router.get("/", (req, res) => {
           });
         },
         error: function (error) {
+          console.log(error);
           return res.redirect("/login?error=Unauthorized");
         },
     });
 });
 
 router.get('/add', (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
 
     $.ajax({
         type: "GET",
@@ -66,7 +67,7 @@ router.get('/add', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
 
   let req_users = typeof(req.body.users) == 'string' ? [req.body.users] : req.body.users;
 
@@ -115,7 +116,7 @@ router.post('/add', (req, res) => {
 });
 
 router.get("/edit/:id", (req, res) => {
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
 
   $.ajax({
       type: "GET",
@@ -154,7 +155,7 @@ router.get("/edit/:id", (req, res) => {
 });
 
 router.post("/edit/:id", (req, res) => {
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
 
   let req_users = typeof(req.body.users) == 'string' ? [req.body.users] : req.body.users;
 
@@ -207,7 +208,7 @@ router.post("/edit/:id", (req, res) => {
 });
 
 router.post("/delete/:id", (req, res) => {
-  req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
+  // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NzA4MTU0LCJleHAiOjE2Njc3Mjk3NTQsIm5iZiI6MTY2NzcwODE1NCwianRpIjoiU3pVSHBWTWVLM2Z3clRtOSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.V3J4X_LoXdRPVt_I2fTfnGqrFIlHb7YVpSmdGCrMjfc";
 
   $.ajax({
       type: "DELETE",

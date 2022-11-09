@@ -1,35 +1,44 @@
 {% extends "admin-base.html" %}
 
 {% block title %}
-Servidores
+Adicionar Proprietário
 {% endblock %}
 
 {% block header %}
-<script>
-    function genPsswd() {
-        let password = (Math.random() + 1).toString(36).substring(2, 20);
-
-        return $('#password').val(password);
-    }
-</script>
 {% endblock %}
 
 {% block content %}
-<h3>Adicionar Servidor</h3>
+<h3>Adicionar Proprietário</h3>
 
 <form action="/owners/add" method="post">
     <div class="form-group mb-3">
-        <label for="name">Nome</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.name }}">
+        <label for="firstname">Primeiro Nome</label>
+        <input type="text" name="firstname" id="firstname" class="form-control" required value="{{ request_body.firstname }}">
     </div>
 
     <div class="form-group mb-3">
-        <label for="email">Endereço</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.adress }}">
+        <label for="lastname">Sobrenome</label>
+        <input type="text" name="lastname" id="lastname" class="form-control" required value="{{ request_body.lastname }}">
     </div>
+
     <div class="form-group mb-3">
-        <label for="email">Telefone</label>
-        <input type="text" name="name" id="name" class="form-control" required value="{{ request_body.phone }}">
+        <label for="cpf">CPF</label>
+        <input type="text" name="cpf" id="lastname" class="form-control" required value="{{ request_body.cpf }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="address">Endereço</label>
+        <input type="text" name="address" id="address" class="form-control" required value="{{ request_body.address }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="phone1">Telefone 1</label>
+        <input type="text" name="phone1" id="phone1" class="form-control" required value="{{ request_body.phone1 }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="phone1">Telefone 2</label>
+        <input type="text" name="phone2" id="phone2" class="form-control" required value="{{ request_body.phone2 }}">
     </div>
 
     <div class="form-group">
@@ -39,11 +48,15 @@ Servidores
 {% endblock %}
 
 {% block script %}
-{% if error %}
-<script>
-    $(document).ready(() => {
-        toastr["error"]("{{ error }}", "Erro!");
-    })
-</script>
-{% endif %}
+    {% if error %}
+        <script>
+            $(document).ready(() => {
+                toastr["error"]("{{ error }}", "Erro!");
+            })
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block owners_active %}
+active
 {% endblock %}

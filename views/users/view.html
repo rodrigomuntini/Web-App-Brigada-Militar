@@ -1,0 +1,61 @@
+{% extends "admin-base.html" %}
+
+{% block title %}
+Ver Servidor - {{ user.name }}
+{% endblock %}
+
+{% block header %}
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+        let map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -27.685046015067787, lng: -52.277383344605944 }, 
+                zoom: 10,
+            });
+
+            {% for visit in user.visits %}
+                new google.maps.Marker({
+                    position: { lat: {{visit.property.latitude}}, lng: {{visit.property.longitude}}},
+                    map,
+                    title: "Guarnição\n{% for user in visit.garrison %}- {{user}}\n{% endfor %}",
+                    label: {
+                        text: "{{visit.property.code}}",
+                        color: 'white',
+                    }
+                });
+            {% endfor %}
+        }
+
+        window.initMap = initMap;
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Informações do Servidor</h1>
+    <p><strong>Nome:</strong> {{user.name}}</p>
+    <p><strong>E-Mail:</strong> {{user.email}}</p>
+
+    <h2>Visitas</h2>
+    {% if user.visits %}
+        <div id="map"></div>
+    {% else %}
+        <p>Este servidor não realizou nenhuma visita</p>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {% if user.visits %}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT2yQkWPQnKknKL1IJHxVAcvV0IaN2N5A&callback=initMap&v=weekly" defer></script>
+    {% endif %}
+{% endblock %}
+
+{% block users_active %}
+active
+{% endblock %}

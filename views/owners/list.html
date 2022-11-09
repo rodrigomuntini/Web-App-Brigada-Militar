@@ -28,7 +28,7 @@ Proprietários
 <div style="clear: both;"></div>
 
 <div class="form-group mb-3" style="float: left; width: 80%; margin-right: 2%;">
-    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. joao@gmail.com">
+    <input type="text" id="input-search" class="form-control" style="margin-bottom: 2%;" placeholder="Ex. João">
 </div>
 <button type="button" class="btn btn-primary" style="width: 18%;" onclick="search();";>Pesquisar</button>
 
@@ -44,14 +44,13 @@ Proprietários
         <tr>
             <td>{{ owner.firstname }} {{owner.lastname}}</td>
             <td>{{ owner.address }}</td>
-            <td>{{ owner.phone }}</td>
+            <td>{{ owner.phone1 }}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
-                    <a href="#" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
-                    <a href="/owners/edit/{{ owners._id }}" class="btn btn-primary btn-block"
-                        style="width: 30%; margin-right: 3%;">Alterar</a>
-                    <a href="#" onclick="confirmDeletion('{{ owners._id }}');" class="btn btn-danger btn-block"
-                        style="width: 30%;">Apagar</a>
+                    <a href="/owners/edit/{{ owner._id }}" class="btn btn-primary btn-block"
+                        style="width: 45%; margin-right: 3%;">Alterar</a>
+                    <a href="#" onclick="confirmDeletion('{{ owner._id }}');" class="btn btn-danger btn-block"
+                        style="width: 45%;">Apagar</a>
                 </div>
             </td>
         </tr>
@@ -129,13 +128,13 @@ Proprietários
 
                             swalWithBootstrapButtons.fire(
                                 'Apagado!',
-                                'Servidor apagado com sucesso',
+                                'Proprietário apagado com sucesso',
                                 'success'
                             );
                         } else {
                             swalWithBootstrapButtons.fire(
                                 'Erro!',
-                                'Houve um erro ao deletar o Servidor. Tente novamente!',
+                                'Houve um erro ao deletar o Proprietário. Tente novamente!',
                                 'error'
                             )
                         }
@@ -150,7 +149,7 @@ Proprietários
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado!',
-                    'Servidor não foi apagado',
+                    'Proprietário não foi apagado',
                     'error'
                 )
             }
@@ -158,4 +157,8 @@ Proprietários
         })
     }
 </script>
+{% endblock %}
+
+{% block owners_active %}
+active
 {% endblock %}

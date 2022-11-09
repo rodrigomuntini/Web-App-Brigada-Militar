@@ -12,7 +12,7 @@ Alterar Visita
 {% block content %}
 <h3>Alterar Visita</h3>
 
-<form action="/visits/add" method="post">
+<form action="/visits/edit/{{request_body._id}}" method="post">
     <label for="users">Guarnição</label>
     <div class="wrapper-users">
         {% if request_body.users %}
@@ -136,4 +136,8 @@ Alterar Visita
             {% endfor %}
         </script>
     {% endif %}
+{% endblock %}
+
+{% block visits_active %}
+active
 {% endblock %}
