@@ -48,7 +48,7 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("index.html");
+  res.render("login.html");
 });
 
 app.get("/teste", (req, res) => {
