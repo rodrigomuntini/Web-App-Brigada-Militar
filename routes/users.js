@@ -126,11 +126,11 @@ router.post("/delete/:id", (req, res) => {
 });
 
 router.get("/view/:id", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTU3MDU0LCJleHAiOjE2Njc5Nzg2NTQsIm5iZiI6MTY2Nzk1NzA1NCwianRpIjoicFpjczR5b29CMmNDbFh0SSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.nLBDtJPwwVnu3aN39wZZthXsafvjXvDRuzt1HArl7Yc";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTU3MDU0LCJleHAiOjE2Njc5Nzg2NTQsIm5iZiI6MTY2Nzk1NzA1NCwianRpIjoicFpjczR5b29CMmNDbFh0SSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.nLBDtJPwwVnu3aN39wZZthXsafvjXvDRuzt1HArl7Yc";
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/users/show/" + req.params.id,
+        url: "https://novo-rumo-api.herokuapp.com/api/users/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },

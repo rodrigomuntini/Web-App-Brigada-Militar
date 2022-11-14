@@ -39,10 +39,10 @@ Ver Servidor - {{ user.name }}
     <h1>Sobre a Propriedade</h1>
 
     <p><strong>Código:</strong> {{property.code}}</p>
-    <p><strong>Proprietário:</strong> {{property.owner.firstname}} {{property.lastname}}</p>
+    <p><strong>Proprietário:</strong> {{property.owner.firstname}} {{property.owner.lastname}}</p>
     <p><strong>CPF:</strong> {{property.owner.cpf}}</p>
-    <p><strong>Telefone 1:</strong> {{property.phone1}}</p>
-    <p><strong>Telefone 2:</strong> {{property.phone2}}</p>
+    <p><strong>Telefone 1:</strong> {{property.owner.phone1}}</p>
+    <p><strong>Telefone 2:</strong> {{property.owner.phone2}}</p>
     <p><strong>Quantidade de Residentes:</strong> {{property.qty_people}}</p>
     <p><strong>Possui câmeras:</strong> {% if property.has_cams %}Sim{% else %}Não{% endif %}</p>
     <p><strong>Possui sinal telefônico:</strong> {% if property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
@@ -58,7 +58,7 @@ Ver Servidor - {{ user.name }}
     <hr>
 
     <h3>Veículos</h3>
-    {% for vehicle in property.vehicle %}
+    {% for vehicle in property.vehicles %}
         <li>{{vehicle.name}} - {{vehicle.brand}}</li>
     {% else %}
         <p>Esta propriedade não possui veículos.</p>
@@ -77,13 +77,12 @@ Ver Servidor - {{ user.name }}
 
     <h3>Solicitações</h3>
     {% for request in property.requests %}
-        <li>{{request.agency}}</li>
+        <li>{{request.agency}} - {% if request.has_success %}Com sucesso{% else %}Sem sucesso{% endif %}</li>
         <hr>
     {% else %}
         <p>Esta propriedade não possui nenhuma solicitação.</p>
+        <hr>
     {% endfor %}
-
-    <hr>
 
     <h3>Visitas</h3>
     {% for visit in property.visits %}

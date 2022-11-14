@@ -45,7 +45,7 @@ router.get("/add", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NjI5MDEzLCJleHAiOjE2Njc2NTA2MTMsIm5iZiI6MTY2NzYyOTAxMywianRpIjoiWUNmMm5QcEhFc1VTSlNpWiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.W7L1IYaU0i8c6FcBjaTZzjUFlGeZgyf1OQeuRtik700";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3NjI5MDEzLCJleHAiOjE2Njc2NTA2MTMsIm5iZiI6MTY2NzYyOTAxMywianRpIjoiWUNmMm5QcEhFc1VTSlNpWiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.W7L1IYaU0i8c6FcBjaTZzjUFlGeZgyf1OQeuRtik700";
 
     $.ajax({
         type: "POST",

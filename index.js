@@ -105,7 +105,7 @@ app.get("/logout", (req, res) => {
 
 app.get("/home", (req, res) => {
   console.log(req.session.token)
-  res.render("home.html");
+  res.redirect('/users');
 });
 
 app.use('/vehicles', vehiclesRouter);

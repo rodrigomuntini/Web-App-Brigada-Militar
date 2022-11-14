@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/owners?page=" + page + search,
+        url: "https://novo-rumo-api.herokuapp.com/api/owners?page=" + page + search,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -47,11 +47,11 @@ router.get("/add", (req, res) => {
 
 router.post("/add", (req, res) => {
 
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTY1OTU4LCJleHAiOjE2Njc5ODc1NTgsIm5iZiI6MTY2Nzk2NTk1OCwianRpIjoiN1FJRlBmZzl2UktjUE9uSyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0nRFx8uIACrTza7UIXplJ59hUx7w8XDY51qqsJzHkHs";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTY1OTU4LCJleHAiOjE2Njc5ODc1NTgsIm5iZiI6MTY2Nzk2NTk1OCwianRpIjoiN1FJRlBmZzl2UktjUE9uSyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0nRFx8uIACrTza7UIXplJ59hUx7w8XDY51qqsJzHkHs";
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/owners/add",
+        url: "https://novo-rumo-api.herokuapp.com/api/owners/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -68,7 +68,7 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/edit/:id", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTY1OTU4LCJleHAiOjE2Njc5ODc1NTgsIm5iZiI6MTY2Nzk2NTk1OCwianRpIjoiN1FJRlBmZzl2UktjUE9uSyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0nRFx8uIACrTza7UIXplJ59hUx7w8XDY51qqsJzHkHs";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTY1OTU4LCJleHAiOjE2Njc5ODc1NTgsIm5iZiI6MTY2Nzk2NTk1OCwianRpIjoiN1FJRlBmZzl2UktjUE9uSyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0nRFx8uIACrTza7UIXplJ59hUx7w8XDY51qqsJzHkHs";
 
     $.ajax({
         type: "GET",
@@ -87,7 +87,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/owners/edit/" + req.params.id,
+        url: "https://novo-rumo-api.herokuapp.com/api/owners/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },

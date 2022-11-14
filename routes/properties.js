@@ -1,5 +1,5 @@
 const express = require('express');
-const { type } = require('jquery');
+const { type, data } = require('jquery');
 const router = express.Router();
 const { JSDOM } = require("jsdom");
 const { restart } = require('nodemon');
@@ -29,7 +29,6 @@ router.get("/", (req, res) => {
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            console.log("api")
             $.ajax({
                 type: "GET",
                 url: "https://novo-rumo-api.herokuapp.com/api/owners/names",
@@ -37,7 +36,6 @@ router.get("/", (req, res) => {
                     'Authorization': 'bearer ' + req.session.token
                 },
                 success: function (d) {
-                    console.log("api2")
                     return res.render("properties/list.html", {
                         properties: data.properties,
                         owners: d.owners,
@@ -128,6 +126,13 @@ router.post('/add', (req, res) => {
 
     let req_vehicles = typeof (req.body.vehicles) == 'string' ? [req.body.vehicles] : req.body.vehicles;
     let req_agricultural_machines = typeof (req.body.agricultural_machines) == 'string' ? [req.body.agricultural_machines] : req.body.agricultural_machines;
+
+    for (index in req_vehicles) {
+        req_vehicles[index] = {
+            "id": req_vehicles[index],
+            "color": "preto"
+        };
+    }
 
     let data = {
         "code": req.body.code,
@@ -225,7 +230,7 @@ router.post('/add', (req, res) => {
 });
 
 router.get("/edit/:id", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTU5MjgwLCJleHAiOjE2Njc5ODA4ODAsIm5iZiI6MTY2Nzk1OTI4MCwianRpIjoiamVkOUhhY2Q0UGNTU0JFWSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vnPO_o_2J7a0Asyo-mJzIZArd9u4M2T7QUOoNCTmwCk";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY4MDgxMjc4LCJleHAiOjE2NjgxMDI4NzgsIm5iZiI6MTY2ODA4MTI3OCwianRpIjoibGF0ZnltQ1BONWMzREdCVyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.POd2aq0vYKZpUD7TTmYaXSEiDvbjG3FBZ_vFLufv7B0";
 
     $.ajax({
         type: "GET",
@@ -238,13 +243,15 @@ router.get("/edit/:id", (req, res) => {
             data.property.owner = data.property.fk_owner_id;
             data.property.property_type = data.property.fk_property_type_id;
 
+            console.log(data.property);
+
             data_vehicles = [];
             if (data.property.vehicles.length > 0) {
                 for (index in data.property.vehicles) {
                     console.log(index);
                     data_vehicles.push(data.property.vehicles[index]._id);
                 }
-                data.visit.vehicles = data_vehicles;
+                data.property.vehicles = data_vehicles;
             }
 
             data_agricultural_machines = [];
@@ -252,7 +259,7 @@ router.get("/edit/:id", (req, res) => {
                 for (index in data.property.agricultural_machines) {
                     data_agricultural_machines.push(data.property.agricultural_machines[index]._id);
                 }
-                data.visit.agricultural_machines = data_agricultural_machines;
+                data.property.agricultural_machines = data_agricultural_machines;
             }
 
             $.ajax({
@@ -317,7 +324,35 @@ router.get("/edit/:id", (req, res) => {
 });
 
 router.post("/edit/:id", (req, res) => {
-    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3ODc0MDM5LCJleHAiOjE2Njc4OTU2MzksIm5iZiI6MTY2Nzg3NDAzOSwianRpIjoiNUdpdko5NE9uTjFTUERnUiIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Qkfyp8_cNhw7JiVRv3C9kz-z0tnaoLENZeRkfuoQqIY";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY4MDgxMjc4LCJleHAiOjE2NjgxMDI4NzgsIm5iZiI6MTY2ODA4MTI3OCwianRpIjoibGF0ZnltQ1BONWMzREdCVyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.POd2aq0vYKZpUD7TTmYaXSEiDvbjG3FBZ_vFLufv7B0";
+
+    let req_vehicles = typeof (req.body.vehicles) == 'string' ? [req.body.vehicles] : req.body.vehicles;
+    let req_agricultural_machines = typeof (req.body.agricultural_machines) == 'string' ? [req.body.agricultural_machines] : req.body.agricultural_machines;
+
+    for (index in req_vehicles) {
+        req_vehicles[index] = {
+            "id": req_vehicles[index],
+            "color": "preto"
+        };
+    }
+
+    let data = {
+        "code": req.body.code,
+        "has_geo_board": req.body.code != undefined ? true : false,
+        "qty_people": req.body.qty_people,
+        "has_cams": !req.body.has_cams ? false : true,
+        "has_phone_signal": !req.body.has_phone_signal ? false : true,
+        "has_internet": !req.body.has_internet ? false : true,
+        "has_gun": !req.body.has_gun ? false : true,
+        "has_gun_local": !req.body.has_gun_local ? false : true,
+        "gun_local_description": req.body.gun_local_description,
+        "qty_agricultural_defensives": !req.body.qty_agricultural_defensives ? 0 : req.body.qty_agricultural_defensives,
+        "observations": req.body.observations,
+        "fk_owner_id": req.body.owner,
+        "fk_property_type_id": req.body.property_type,
+        "vehicles": req_vehicles,
+        "agricultural_machines": req_agricultural_machines
+    };
 
     $.ajax({
         type: "POST",
@@ -325,6 +360,7 @@ router.post("/edit/:id", (req, res) => {
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
+        data: data,
         success: function (data) {
             console.log(data);
             req.session.success_message = "Propriedade alterada com sucesso!"
@@ -415,7 +451,7 @@ router.post("/delete/:id", (req, res) => {
 });
 
 router.get("/view/:id", (req, res) => {
-    req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY3OTU5MjgwLCJleHAiOjE2Njc5ODA4ODAsIm5iZiI6MTY2Nzk1OTI4MCwianRpIjoiamVkOUhhY2Q0UGNTU0JFWSIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vnPO_o_2J7a0Asyo-mJzIZArd9u4M2T7QUOoNCTmwCk";
+    // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY4MDgxMjc4LCJleHAiOjE2NjgxMDI4NzgsIm5iZiI6MTY2ODA4MTI3OCwianRpIjoibGF0ZnltQ1BONWMzREdCVyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.POd2aq0vYKZpUD7TTmYaXSEiDvbjG3FBZ_vFLufv7B0";
 
     $.ajax({
         type: "GET",

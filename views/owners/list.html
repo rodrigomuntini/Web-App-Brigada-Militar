@@ -35,7 +35,6 @@ Proprietários
 <table class="table table-stripe table-bordered table-hover">
     <thead>
         <th>Nome</th>
-        <th>Endereço</th>
         <th>Telefone</th>
         <th>Ações</th>
     </thead>
@@ -43,7 +42,6 @@ Proprietários
         {% for owner in owners %}
         <tr>
             <td>{{ owner.firstname }} {{owner.lastname}}</td>
-            <td>{{ owner.address }}</td>
             <td>{{ owner.phone1 }}</td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
