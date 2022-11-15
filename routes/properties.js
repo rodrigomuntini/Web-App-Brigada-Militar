@@ -29,27 +29,14 @@ router.get("/", (req, res) => {
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            $.ajax({
-                type: "GET",
-                url: "https://novo-rumo-api.herokuapp.com/api/owners/names",
-                headers: {
-                    'Authorization': 'bearer ' + req.session.token
-                },
-                success: function (d) {
-                    return res.render("properties/list.html", {
-                        properties: data.properties,
-                        owners: d.owners,
-                        message: success_message,
-                        page: data.page,
-                        last_page: data.last_page,
-                        total: data.total,
-                        search: data.search
-                    });
-                },
-                error: function (error) {
-                    console.log(error);
-                    return res.redirect("/login?error=Unauthorized");
-                },
+            return res.render("properties/list.html", {
+                properties: data.properties,
+                owners: data.all_owners,
+                message: success_message,
+                page: data.page,
+                last_page: data.last_page,
+                total: data.total,
+                search: data.search
             });
         },
         error: function (error) {
@@ -70,50 +57,11 @@ router.get('/add', (req, res) => {
         },
         success: function (data) {
             var owners = data.owners;
+            var property_types = data.property_types;
+            var agricultural_machines = data.agricultural_machines;
+            var vehicles = data.vehicles;
 
-            $.ajax({
-                type: "GET",
-                url: "https://novo-rumo-api.herokuapp.com/api/property-types/names",
-                headers: {
-                    'Authorization': 'bearer ' + req.session.token
-                },
-                success: function (data) {
-                    var property_types = data.property_types;
-
-                    $.ajax({
-                        type: "GET",
-                        url: "https://novo-rumo-api.herokuapp.com/api/vehicles/names",
-                        headers: {
-                            'Authorization': 'bearer ' + req.session.token
-                        },
-                        success: function (data) {
-                            var vehicles = data.vehicles;
-
-                            $.ajax({
-                                type: "GET",
-                                url: "https://novo-rumo-api.herokuapp.com/api/agricultural-machines/names",
-                                headers: {
-                                    'Authorization': 'bearer ' + req.session.token
-                                },
-                                success: function (data) {
-                                    var agricultural_machines = data.agricultural_machines;
-
-                                    res.render('properties/add.html', { 'owners': owners, 'property_types': property_types, 'vehicles': vehicles, 'agricultural_machines': agricultural_machines });
-                                },
-                                error: function (error) {
-                                    return res.redirect("/login?error=Unauthorized");
-                                },
-                            });
-                        },
-                        error: function (error) {
-                            return res.redirect("/login?error=Unauthorized");
-                        },
-                    });
-                },
-                error: function (error) {
-                    return res.redirect("/login?error=Unauthorized");
-                },
-            });
+            return res.render('properties/add.html', { 'owners': owners, 'property_types': property_types, 'vehicles': vehicles, 'agricultural_machines': agricultural_machines });
         },
         error: function (error) {
             return res.redirect("/login?error=Unauthorized");
@@ -176,50 +124,11 @@ router.post('/add', (req, res) => {
                 },
                 success: function (data) {
                     var owners = data.owners;
+                    var property_types = data.property_types;
+                    var agricultural_machines = data.agricultural_machines;
+                    var vehicles = data.vehicles;
 
-                    $.ajax({
-                        type: "GET",
-                        url: "https://novo-rumo-api.herokuapp.com/api/property-types/names",
-                        headers: {
-                            'Authorization': 'bearer ' + req.session.token
-                        },
-                        success: function (data) {
-                            var property_types = data.property_types;
-
-                            $.ajax({
-                                type: "GET",
-                                url: "https://novo-rumo-api.herokuapp.com/api/vehicles/names",
-                                headers: {
-                                    'Authorization': 'bearer ' + req.session.token
-                                },
-                                success: function (data) {
-                                    var vehicles = data.vehicles;
-
-                                    $.ajax({
-                                        type: "GET",
-                                        url: "https://novo-rumo-api.herokuapp.com/api/agricultural-machines/names",
-                                        headers: {
-                                            'Authorization': 'bearer ' + req.session.token
-                                        },
-                                        success: function (data) {
-                                            var agricultural_machines = data.agricultural_machines;
-
-                                            return res.render('properties/add.html', { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'vehicles': vehicles, 'agricultural_machines': agricultural_machines })
-                                        },
-                                        error: function (error) {
-                                            return res.redirect("/login?error=Unauthorized");
-                                        },
-                                    });
-                                },
-                                error: function (error) {
-                                    return res.redirect("/login?error=Unauthorized");
-                                },
-                            });
-                        },
-                        error: function (error) {
-                            return res.redirect("/login?error=Unauthorized");
-                        },
-                    });
+                    return res.render('properties/add.html', { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'vehicles': vehicles, 'agricultural_machines': agricultural_machines })
                 },
                 error: function (error) {
                     return res.redirect("/login?error=Unauthorized");
@@ -243,7 +152,10 @@ router.get("/edit/:id", (req, res) => {
             data.property.owner = data.property.fk_owner_id;
             data.property.property_type = data.property.fk_property_type_id;
 
-            console.log(data.property);
+            var owners = data.owners;
+            var property_types = data.property_types;
+            var agricultural_machines = data.agricultural_machines;
+            var vehicles = data.vehicles;
 
             data_vehicles = [];
             if (data.property.vehicles.length > 0) {
@@ -262,63 +174,7 @@ router.get("/edit/:id", (req, res) => {
                 data.property.agricultural_machines = data_agricultural_machines;
             }
 
-            $.ajax({
-                type: "GET",
-                url: "https://novo-rumo-api.herokuapp.com/api/owners/names",
-                headers: {
-                    'Authorization': 'bearer ' + req.session.token
-                },
-                success: function (d) {
-                    var owners = d.owners;
-
-                    $.ajax({
-                        type: "GET",
-                        url: "https://novo-rumo-api.herokuapp.com/api/property-types/names",
-                        headers: {
-                            'Authorization': 'bearer ' + req.session.token
-                        },
-                        success: function (d) {
-                            var property_types = d.property_types;
-
-                            $.ajax({
-                                type: "GET",
-                                url: "https://novo-rumo-api.herokuapp.com/api/vehicles/names",
-                                headers: {
-                                    'Authorization': 'bearer ' + req.session.token
-                                },
-                                success: function (d) {
-                                    var vehicles = d.vehicles;
-
-                                    $.ajax({
-                                        type: "GET",
-                                        url: "https://novo-rumo-api.herokuapp.com/api/agricultural-machines/names",
-                                        headers: {
-                                            'Authorization': 'bearer ' + req.session.token
-                                        },
-                                        success: function (d) {
-                                            var agricultural_machines = d.agricultural_machines;
-
-                                            return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
-                                        },
-                                        error: function (error) {
-                                            return res.redirect("/login?error=Unauthorized");
-                                        },
-                                    });
-                                },
-                                error: function (error) {
-                                    return res.redirect("/login?error=Unauthorized");
-                                },
-                            });
-                        },
-                        error: function (error) {
-                            return res.redirect("/login?error=Unauthorized");
-                        },
-                    });
-                },
-                error: function (error) {
-                    return res.redirect("/login?error=Unauthorized");
-                },
-            });
+            return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
         },
     });
 });
@@ -378,50 +234,11 @@ router.post("/edit/:id", (req, res) => {
                 },
                 success: function (d) {
                     var owners = d.owners;
+                    var property_types = d.property_types;
+                    var agricultural_machines = d.agricultural_machines;
+                    var vehicles = d.vehicles;
 
-                    $.ajax({
-                        type: "GET",
-                        url: "https://novo-rumo-api.herokuapp.com/api/property-types/names",
-                        headers: {
-                            'Authorization': 'bearer ' + req.session.token
-                        },
-                        success: function (d) {
-                            var property_types = d.property_types;
-
-                            $.ajax({
-                                type: "GET",
-                                url: "https://novo-rumo-api.herokuapp.com/api/vehicles/names",
-                                headers: {
-                                    'Authorization': 'bearer ' + req.session.token
-                                },
-                                success: function (d) {
-                                    var vehicles = d.vehicles;
-
-                                    $.ajax({
-                                        type: "GET",
-                                        url: "https://novo-rumo-api.herokuapp.com/api/agricultural_machines/names",
-                                        headers: {
-                                            'Authorization': 'bearer ' + req.session.token
-                                        },
-                                        success: function (d) {
-                                            var agricultural_machines = d.agricultural_machines;
-
-                                            return res.render("properties/edit.html", { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
-                                        },
-                                        error: function (error) {
-                                            return res.redirect("/login?error=Unauthorized");
-                                        },
-                                    });
-                                },
-                                error: function (error) {
-                                    return res.redirect("/login?error=Unauthorized");
-                                },
-                            });
-                        },
-                        error: function (error) {
-                            return res.redirect("/login?error=Unauthorized");
-                        },
-                    });
+                    return res.render("properties/edit.html", { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
                 },
                 error: function (error) {
                     return res.redirect("/login?error=Unauthorized");
