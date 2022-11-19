@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novo-rumo-api.herokuapp.com/api/vehicles?page=" + page + search,
+        url: "https://novorumo-api.fly.dev/api/vehicles?page=" + page + search,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -49,7 +49,7 @@ router.post("/add", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novo-rumo-api.herokuapp.com/api/vehicles/add",
+        url: "https://novorumo-api.fly.dev/api/vehicles/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -69,7 +69,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novo-rumo-api.herokuapp.com/api/vehicles/show/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/vehicles/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -84,7 +84,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novo-rumo-api.herokuapp.com/api/vehicles/edit/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/vehicles/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -107,7 +107,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "https://novo-rumo-api.herokuapp.com/api/vehicles/delete/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/vehicles/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },

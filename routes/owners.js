@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novo-rumo-api.herokuapp.com/api/owners?page=" + page + search,
+        url: "https://novorumo-api.fly.dev/api/owners?page=" + page + search,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -51,7 +51,7 @@ router.post("/add", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novo-rumo-api.herokuapp.com/api/owners/add",
+        url: "https://novorumo-api.fly.dev/api/owners/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -72,7 +72,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novo-rumo-api.herokuapp.com/api/owners/show/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/owners/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -87,7 +87,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novo-rumo-api.herokuapp.com/api/owners/edit/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/owners/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -110,7 +110,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "https://novo-rumo-api.herokuapp.com/api/owners/delete/" + req.params.id,
+        url: "https://novorumo-api.fly.dev/api/owners/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },

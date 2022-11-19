@@ -20,12 +20,12 @@ Visitas
 
 {% block content %}
 <h1 style="float: left; margin-bottom: 3%;">Visitas à Propriedades</h1>
-<a href="/visits/add" class="btn btn-success btn-block" style="float: right; width: 18%;">Adicionar Visita</a>
+<a href="/visits/add" class="btn btn-success btn-block" style="float: right; width: 23.5%;">Adicionar Visita</a>
 
 <div style="clear: both;"></div>
 
 <form method="get" action="/visits">
-    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+    <div class="form-group mb-3" style="float: left; width: 23.5%; margin-right: 2%;">
         <label for="input-search" style="margin-bottom: 0.5%;">Servidor</label>
         <select name="u" id="select-search">
             <option value="" selected></option>
@@ -34,13 +34,28 @@ Visitas
             {% endfor %}
         </select>
     </div>
-    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+    <div class="form-group mb-3" style="float: left; width: 23.5%; margin-right: 2%;">
         <label for="p" style="margin-bottom: 0.5%;">Código de Propriedade</label>
         <input type="text" id="input-search" name="p" class="form-control" style="margin-bottom: 2%; height: 36.18px;" placeholder="Ex. ERE000">
     </div>
 
-    <button type="submit" class="btn btn-primary" style="float: right; height: 36.18px; width: 18%; margin-top: 2%;">Pesquisar</button>
+    <div class="form-group mb-3" style="float: left; width: 23.5%; margin-right: 2%;">
+        <label for="from" style="margin-bottom: 0.5%;">De:</label>
+        <input type="datetime-local" name="from" id="from" class="form-control" style="margin-bottom: 2%; height: 36.18px;">
+    </div>
+
+    <div class="form-group mb-3" style="float: left; width: 23.5%;">
+        <label for="to" style="margin-bottom: 0.5%;">Até:</label>
+        <input type="datetime-local" name="to" id="to" class="form-control" style="margin-bottom: 2%; height: 36.18px;">
+    </div>
+
+    <div style="clear: both;"></div>
+
+    <button type="submit" class="btn btn-primary" style="float: right; height: 36.18px; width: 23.5%;">Pesquisar</button>
 </form>
+
+<div style="clear: both;"></div>
+<br>
 
 <table class="table table-stripe table-bordered table-hover">
     <thead>
@@ -52,10 +67,10 @@ Visitas
     <tbody>
         {% for visit in visits %}
         <tr>
-            <td>{{ visit.property.code }}</td>
+            <td>{{ properties[visit._id].code }}</td>
             <td>
                 <ul>
-                    {% for user in visit.users %}
+                    {% for user in garrison[visit._id] %}
                         {% if user.name != null %}
                             <li>{{user.name}}</li>
                         {% endif %}
@@ -67,10 +82,11 @@ Visitas
             </td>
             <td>
                 <div class="buttons" style="width: 80%; margin: auto;">
+                    <a href="/visits/view/{{ visit._id }}" class="btn btn-dark btn-block" style="width: 30%; margin-right: 3%;">Ver</a>
                     <a href="/visits/edit/{{ visit._id }}" class="btn btn-primary btn-block"
-                        style="width: 45%; margin-right: 3%;">Alterar</a>
+                        style="width: 30%; margin-right: 3%;">Alterar</a>
                     <a href="#" onclick="confirmDeletion('{{ visit._id }}');" class="btn btn-danger btn-block"
-                        style="width: 45%;">Apagar</a>
+                        style="width: 30%;">Apagar</a>
                 </div>
             </td>
         </tr>
