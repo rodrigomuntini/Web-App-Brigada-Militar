@@ -49,6 +49,48 @@ router.get("/add", (req, res) => {
     res.render("users/add.html");
 });
 
+// POST CONTACT 
+// router.post('/sendEmail', (req, res) => {
+    
+//     var email = req.body.email;
+//     var subject = req.body.subject;
+
+//     req.body.status = false;
+
+//     if (email && subject) {
+        
+//         // send email to Client
+//         nodeoutlook.sendEmail({
+//             auth: {
+//                 user: "novorumo054@outlook.com",
+//                 pass: "Novorumopm"
+//             },
+//             from: 'novorumo054@outlook.com',
+//             to: email,
+//             subject: 'Administrador - Novo Rumo',
+//             html:   '<div style="justify-content-center; text-align: center;">'+
+//                         '<div><h2>Malotech Store</h2></div>'+
+//                         '<div style="margin-bottom: 10px;"><h4>Olá, recebemos seu chamado em nosso site!</h4></div>'+
+//                         '<div style="margin-bottom: 10px;"><h4>Nossa equipe irá analisar e em breve iremos retornar uma resposta.</h4></div>'+
+//                         '<div><b>Equipe Malotech</b></div>'+
+//                     '</div>',
+//             replyTo: 'novorumo054@outlook.com',
+//             onError: (e) => {
+//                 console.log('Error', 'Send e-mail to client error: ' + e);
+//             },
+//             onSuccess: (i) => {
+//                 console.log('info', 'Send e-mail to client: ' + i);
+//             }
+//         });
+        
+//         return res.status(200).json({ success: true, result: 'Email enviado', status: 200 });
+        
+//     } else {
+//         console.log('error', 'Missing informations on create contact');
+//     }
+   
+// });
+
 router.post("/add", (req, res) => {
 
     // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjY5NjA1ODMsImV4cCI6MTY2Njk4MjE4MywibmJmIjoxNjY2OTYwNTgzLCJqdGkiOiJlSVpidUowOWwzYUVwWE5UIiwic3ViIjoiNjMzODgwMGM2NmE4ZDhkYjA4MDQyODEyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T9NWr14eqtF1tdHcLBcbA0ZXQij-lwdjY4N008wXSK0";
