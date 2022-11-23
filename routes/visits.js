@@ -214,6 +214,7 @@ router.get('/', async (req, res) => {
     page: page,
     last_page: last_page,
     total: total,
+    queries: req.query
   });
 })
 

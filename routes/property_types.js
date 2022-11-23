@@ -33,7 +33,8 @@ router.get("/", (req, res) => {
                 page: data.page,
                 last_page: data.last_page,
                 total: data.total,
-                search: data.search
+                search: data.search,
+                queries: req.query
             });
         },
         error: function (error) {
