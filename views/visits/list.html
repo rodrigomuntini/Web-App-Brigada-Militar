@@ -59,9 +59,12 @@ Visitas
 
 <table class="table table-stripe table-bordered table-hover">
     <thead>
-        <th>Local</th>
+        <th>Local <a href="/visits?{%if (queries.sort == 'ASC' or queries.sort == undefined)%}sort=DESC{%else%}sort=ASC{%endif%}&column=code{%for var, query in queries %}{%if var != 'sort' and var != 'column'%}&{{var}}={{query}}{%endif%}{%endfor%}">{%if queries.sort == 'ASC' and queries.column == 'code'%}<i style="color: black;" class="fa-sharp fa-solid fa-arrow-down"></i>{%elif queries.sort == 'DESC' and queries.column == 'code'%}<i style="color: black;" class="fa-solid fa-arrow-up"></i>{% else %}<i style="color: black;" class="fa-solid fa-arrow-down"></i>{%endif%}</a></th>
+
         <th>Servidores</th>
-        <th>Data</th>
+        
+        <th>Data <a href="/visits?{%if (queries.sort == 'ASC' or queries.sort == undefined)%}sort=DESC{%else%}sort=ASC{%endif%}&column=date{%for var, query in queries %}{%if var != 'sort' and var != 'column'%}&{{var}}={{query}}{%endif%}{%endfor%}">{%if queries.sort == 'ASC' and queries.column == 'date'%}<i style="color: black;" class="fa-sharp fa-solid fa-arrow-down"></i>{%elif queries.sort == 'DESC' and queries.column == 'date'%}<i style="color: black;" class="fa-solid fa-arrow-up"></i>{% else %}<i style="color: black;" class="fa-solid fa-arrow-down"></i>{%endif%}</a></th>
+
         <th>Ações</th>
     </thead>
     <tbody>
@@ -102,19 +105,19 @@ Visitas
     <ul class="pagination">
 
     {% if (page != 1) %}
-        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int - 1 }}{% if (search) %}&search={{search}}{% endif %}">Anterior</a></li>
+        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int - 1 }}{%for var, query in queries %}{%if var != 'page'%}&{{var}}={{query}}{%endif%}{%endfor%}">Anterior</a></li>
     {% endif %}
 
     {% for i in range((page|int - 2), (page|int + 3)) -%}
         {% if (i == page) %}
-            <li class="page-item active"><a class="page-link" href="/visits?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item active"><a class="page-link" href="/visits?page={{i}}{%for var, query in queries %}{%if var != 'page'%}&{{var}}={{query}}{%endif%}{%endfor%}">{{ i }}</a></li>
         {% elif (i > 0 and i <= last_page) %}
-            <li class="page-item"><a class="page-link" href="/visits?page={{i}}{% if (search) %}&search={{search}}{% endif %}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" href="/visits?page={{i}}{%for var, query in queries %}{%if var != 'page'%}&{{var}}={{query}}{%endif%}{%endfor%}">{{ i }}</a></li>
         {% endif %}
     {%- endfor %}
 
     {% if (page < last_page) %}
-        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int + 1 }}{% if (search) %}&search={{search}}{% endif %}">Próximo</a></li>
+        <li class="page-item"><a class="page-link" href="/visits?page={{ page|int + 1 }}{%for var, query in queries %}{%if var != 'page'%}&{{var}}={{query}}{%endif%}{%endfor%}">Próximo</a></li>
     {% endif %}
     </ul>
 </nav>
