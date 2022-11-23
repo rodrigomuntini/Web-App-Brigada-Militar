@@ -42,7 +42,7 @@ Ver Visita
     <p><strong>Proprietário:</strong> {{owner.firstname}} {{owner.lastname}}</p>
     <p><strong>CPF:</strong> {{owner.cpf}}</p>
     <p><strong>Telefone 1:</strong> {{owner.phone1}}</p>
-    <p><strong>Telefone 2:</strong> {{owner.phone2}}</p>
+    <p><strong>Telefone 2:</strong> {% if owner.phone2 %}{{owner.phone2}}{% else %}-{% endif %}</p>
     <p><strong>Quantidade de Residentes:</strong> {{property.qty_people}}</p>
     <p><strong>Possui câmeras:</strong> {% if property.has_cams %}Sim{% else %}Não{% endif %}</p>
     <p><strong>Possui sinal telefônico:</strong> {% if property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
@@ -50,10 +50,10 @@ Ver Visita
     <p><strong>Possui arma de fogo:</strong> {% if property.has_gun %}Sim{% else %}Não{% endif %}</p>
     {% if property.has_gun %}
         <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
-        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}Sim{% else %}Não{% endif %}</p>
+        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
-    <p><strong>Observações:</strong> {{property.observations}}</p>
+    <p><strong>Observações:</strong> {% if property.observations %}{{property.observations}}{% else %}-{% endif %}</p>
 
     <hr>
 
@@ -128,6 +128,6 @@ Ver Visita
 
 {% endblock %}
 
-{% block properties_active %}
+{% block visits_active %}
 active
 {% endblock %}

@@ -160,6 +160,8 @@ Alterar Propriedade
     </div>
 
     <button type="button" class="add-button-agricultural-machines btn btn-primary" style="float: right;">Adicionar Máquina</button>
+
+    <div style="clear: both;"></div>
     
     <div class="form-group mb-3">
         <label for="name">Observações</label>
@@ -211,7 +213,7 @@ Alterar Propriedade
         $(document).ready(() => {
             var wrapper_vehicles = $('.wrapper-vehicles');
             var add_button_vehicles = $('.add-button-vehicles');
-            var x = 1;
+            var x = $('.wrapper-vehicles')[0].childElementCount + 1;
 
             $(add_button_vehicles).click((e) => {
                 x++;
@@ -266,6 +268,7 @@ Alterar Propriedade
     {% endif %}
 
     {% if request_body.vehicles %}
+        {% if is_get %}
         <script>
             {% set i = 0 %}
             {% for request_body_vehicle in request_body.vehicles %}
@@ -275,6 +278,17 @@ Alterar Propriedade
                     selectize.setValue("{{request_body_vehicle}}", false);
             {% endfor %}
         </script>
+        {% else %}
+        <script>
+            {% set i = 0 %}
+            {% for request_body_vehicle in request_body.vehicles %}
+                {% set i = i|int + 1 %}
+                    $select = $('#select-vehicles-{{i}}').selectize();
+                    var selectize = $select[0].selectize;
+                    selectize.setValue("{{request_body_vehicle.id}}", false);
+            {% endfor %}
+        </script>
+        {% endif %}
     {% endif %}
 
     {% if request_body.agricultural_machines %}

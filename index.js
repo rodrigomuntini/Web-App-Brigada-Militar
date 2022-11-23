@@ -82,7 +82,7 @@ app.post("/login-verify", (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "https://novorumo-api.fly.dev/api/auth/login",
+    url: "http://localhost:8000/api/auth/login",
     data: data,
     success: function (data) {
       console.log(data);

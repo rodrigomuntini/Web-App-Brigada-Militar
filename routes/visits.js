@@ -178,7 +178,7 @@ router.get('/', async (req, res) => {
   let last_page = Math.ceil(total/elementsPerPage);
   
   let visits = await Visit.find(search).sort({'date': order}).skip(skip).limit(elementsPerPage);
-  let users = await User.find();
+  let users = await User.find().sort({name: 1});
 
   let propertiesArr = [];
   let garrisonArr = [];
@@ -215,7 +215,7 @@ router.get('/add', (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/properties/codes",
+        url: "http://localhost:8000/api/properties/codes",
         headers: {
           'Authorization': 'bearer ' + req.session.token
         },
@@ -250,7 +250,7 @@ router.post('/add', (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "https://novorumo-api.fly.dev/api/visits/add",
+    url: "http://localhost:8000/api/visits/add",
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -262,7 +262,7 @@ router.post('/add', (req, res) => {
     error: function (error) {
       $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/properties/codes",
+        url: "http://localhost:8000/api/properties/codes",
         headers: {
           'Authorization': 'bearer ' + req.session.token
         },
@@ -285,7 +285,7 @@ router.get("/edit/:id", (req, res) => {
 
   $.ajax({
       type: "GET",
-      url: "https://novorumo-api.fly.dev/api/visits/show/" + req.params.id,
+      url: "http://localhost:8000/api/visits/show/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },
@@ -301,7 +301,7 @@ router.get("/edit/:id", (req, res) => {
 
           $.ajax({
             type: "GET",
-            url: "https://novorumo-api.fly.dev/api/properties/codes",
+            url: "http://localhost:8000/api/properties/codes",
             headers: {
               'Authorization': 'bearer ' + req.session.token
             },
@@ -338,7 +338,7 @@ router.post("/edit/:id", (req, res) => {
 
   $.ajax({
       type: "POST",
-      url: "https://novorumo-api.fly.dev/api/visits/edit/" + req.params.id,
+      url: "http://localhost:8000/api/visits/edit/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },
@@ -354,7 +354,7 @@ router.post("/edit/:id", (req, res) => {
 
           $.ajax({
             type: "GET",
-            url: "https://novorumo-api.fly.dev/api/properties/codes",
+            url: "http://localhost:8000/api/properties/codes",
             headers: {
               'Authorization': 'bearer ' + req.session.token
             },
@@ -377,7 +377,7 @@ router.post("/delete/:id", (req, res) => {
 
   $.ajax({
       type: "DELETE",
-      url: "https://novorumo-api.fly.dev/api/visits/delete/" + req.params.id,
+      url: "http://localhost:8000/api/visits/delete/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },

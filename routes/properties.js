@@ -20,10 +20,12 @@ router.get("/", (req, res) => {
     let page = req.query.page || 1;
     let searchOwner = req.query.o ? "&o=" + req.query.o : "";
     let searchProperty = req.query.c ? "&c=" + req.query.c : "";
+    let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
+    let sort = (req.query.sort == "DESC" || req.query.sort == "desc" ) ? "&sort=DESC" : "&sort=ASC";
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/properties?page=" + page + searchOwner + searchProperty,
+        url: "http://localhost:8000/api/properties?page=" + page + searchOwner + searchProperty + searchPropertyType + sort,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -32,6 +34,7 @@ router.get("/", (req, res) => {
             return res.render("properties/list.html", {
                 properties: data.properties,
                 owners: data.all_owners,
+                property_types: data.all_property_types,
                 message: success_message,
                 page: data.page,
                 last_page: data.last_page,
@@ -51,7 +54,7 @@ router.get('/add', (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/owners/names",
+        url: "http://localhost:8000/api/owners/names",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -104,7 +107,7 @@ router.post('/add', (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novorumo-api.fly.dev/api/properties/add",
+        url: "http://localhost:8000/api/properties/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -115,10 +118,11 @@ router.post('/add', (req, res) => {
             return res.redirect('/properties');
         },
         error: function (error) {
-            res.send(error)
+            req.body._id = req.params.id;
+
             $.ajax({
                 type: "GET",
-                url: "https://novorumo-api.fly.dev/api/owners/names",
+                url: "http://localhost:8000/api/owners/names",
                 headers: {
                     'Authorization': 'bearer ' + req.session.token
                 },
@@ -143,7 +147,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/properties/show/" + req.params.id,
+        url: "http://localhost:8000/api/properties/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -174,7 +178,7 @@ router.get("/edit/:id", (req, res) => {
                 data.property.agricultural_machines = data_agricultural_machines;
             }
 
-            return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
+            return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles, 'is_get': true });
         },
     });
 });
@@ -207,12 +211,14 @@ router.post("/edit/:id", (req, res) => {
         "fk_owner_id": req.body.owner,
         "fk_property_type_id": req.body.property_type,
         "vehicles": req_vehicles,
-        "agricultural_machines": req_agricultural_machines
+        "agricultural_machines": req_agricultural_machines,
+        "latitude": req.body.latitude,
+        "longitude": req.body.longitude,
     };
 
     $.ajax({
         type: "POST",
-        url: "https://novorumo-api.fly.dev/api/properties/edit/" + req.params.id,
+        url: "http://localhost:8000/api/properties/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -225,10 +231,14 @@ router.post("/edit/:id", (req, res) => {
         error: function (error) {
             console.log(error);
             req.body._id = req.params.id;
+            req.body.agricultural_machines = req_agricultural_machines;
+            req.body.vehicles = req_vehicles;
+
+            console.log(req.body);
 
             $.ajax({
                 type: "GET",
-                url: "https://novorumo-api.fly.dev/api/owners/names",
+                url: "http://localhost:8000/api/owners/names",
                 headers: {
                     'Authorization': 'bearer ' + req.session.token
                 },
@@ -238,7 +248,7 @@ router.post("/edit/:id", (req, res) => {
                     var agricultural_machines = d.agricultural_machines;
                     var vehicles = d.vehicles;
 
-                    return res.render("properties/edit.html", { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles });
+                    return res.render("properties/edit.html", { 'request_body': req.body, 'error': error.responseJSON.error, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles, 'is_post': true });
                 },
                 error: function (error) {
                     return res.redirect("/login?error=Unauthorized");
@@ -253,7 +263,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "https://novorumo-api.fly.dev/api/properties/delete/" + req.params.id,
+        url: "http://localhost:8000/api/properties/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -272,7 +282,7 @@ router.get("/view/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/properties/show/" + req.params.id,
+        url: "http://localhost:8000/api/properties/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'

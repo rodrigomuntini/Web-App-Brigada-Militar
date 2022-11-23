@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/agricultural-machines?page=" + page + search,
+        url: "http://localhost:8000/api/agricultural-machines?page=" + page + search,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -49,7 +49,7 @@ router.post("/add", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novorumo-api.fly.dev/api/agricultural-machines/add",
+        url: "http://localhost:8000/api/agricultural-machines/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -69,7 +69,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "https://novorumo-api.fly.dev/api/agricultural-machines/show/" + req.params.id,
+        url: "http://localhost:8000/api/agricultural-machines/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -84,7 +84,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "https://novorumo-api.fly.dev/api/agricultural-machines/edit/" + req.params.id,
+        url: "http://localhost:8000/api/agricultural-machines/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -107,7 +107,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "https://novorumo-api.fly.dev/api/agricultural-machines/delete/" + req.params.id,
+        url: "http://localhost:8000/api/agricultural-machines/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
