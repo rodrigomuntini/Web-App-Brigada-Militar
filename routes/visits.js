@@ -184,7 +184,7 @@ router.get('/', async (req, res) => {
 
   let last_page = Math.ceil(total/elementsPerPage);
   
-  let visits = await Visit.find(search).sort({column: order}).skip(skip).limit(elementsPerPage);
+  let visits = await Visit.find(search).sort({'date': order}).skip(skip).limit(elementsPerPage);
   let users = await User.find().sort({name: 1});
 
   let propertiesArr = [];
