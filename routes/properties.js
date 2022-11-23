@@ -21,11 +21,13 @@ router.get("/", (req, res) => {
     let searchOwner = req.query.o ? "&o=" + req.query.o : "";
     let searchProperty = req.query.c ? "&c=" + req.query.c : "";
     let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
-    let sort = (req.query.sort == "DESC" || req.query.sort == "desc" ) ? "&sort=DESC" : "&sort=ASC";
+
+    let sort = req.query.sort ? "&sort=" + req.query.sort : "";
+    let column = req.query.column ? "&column=" + req.query.column : "";
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/properties?page=" + page + searchOwner + searchProperty + searchPropertyType + sort,
+        url: "http://localhost:8000/api/properties?page=" + page + searchOwner + searchProperty + searchPropertyType + sort + column,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'

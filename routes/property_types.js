@@ -17,9 +17,12 @@ router.get("/", (req, res) => {
     let page = req.query.page || 1;
     let search = req.query.search ? "&search=" + req.query.search : "";
 
+    let sort = req.query.sort ? "&sort=" + req.query.sort : "";
+    let column = req.query.column ? "&column=" + req.query.column : "";
+
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/property-types?page=" + page + search,
+        url: "http://localhost:8000/api/property-types?page=" + page + search + sort + column,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
