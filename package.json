@@ -17,6 +17,8 @@
     "jquery": "^3.6.1",
     "jsdom": "^20.0.2",
     "mongoose": "^6.7.2",
+    "nodejs-nodemailer-outlook": "^1.2.4",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.19",
     "nunjucks": "^3.2.3",
     "useful-nunjucks-filters": "^0.1.3"

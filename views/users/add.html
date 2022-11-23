@@ -6,8 +6,32 @@ Adicionar Servidor
 
 {% block header %}
 <script>
+    function sendEmail() {
+        var email = $("#email").val();
+        var name = $("#name").val();
+        var passwordEmail = $('#password').val();
+
+        var data = {
+            email: email,
+            name: name,
+            subject: passwordEmail
+        }
+
+        $.post('/sendEmail', data, function (res) {
+            if(res.status == 200) {
+                toastr["success"]("Enviado!");
+                setTimeout(function(){
+                    location.reload();
+                },4500);
+                $('form').trigger('reset');
+            } else {
+                toastr["error"]('Ops, ocorreu um erro ao enviar, por favor, tente mais tarde.');
+            }
+        })
+    }
+
     function genPsswd() {
-        let password = (Math.random() + 1).toString(36).substring(2, 20);
+        var password = (Math.random() + 1).toString(36).substring(2, 20);
 
         return $('#password').val(password);
     }
@@ -35,7 +59,7 @@ Adicionar Servidor
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Salvar" class="btn btn-success">
+        <input type="submit" value="Salvar" onclick="sendEmail()" class="btn btn-success">
     </div>
 </form>
 {% endblock %}

@@ -8,6 +8,7 @@ const $ = require("jquery")(window);
 var session = require('express-session');
 var auth = require('./middleware/auth');
 var mongoconnect = require('./mongodb/mongodb');
+const nodeoutlook = require('nodejs-nodemailer-outlook')
 
 var vehiclesRouter = require('./routes/vehicles');
 var agriculturalMachinesRouter = require ('./routes/agricultural_machines');
@@ -119,3 +120,45 @@ app.use('/visits', visitsRouter);
 app.use('/properties', propertiesRouter);
 app.use('/users', usersRouter);
 app.use('/owners', ownersRouter);
+
+// POST CONTACT 
+app.post('/sendEmail', (req, res) => {
+    
+  var email = req.body.email;
+  var name = req.body.name;
+  var subject = req.body.subject;
+
+  req.body.status = false;
+
+  if (email && subject) {
+      
+      // send email to Client
+      nodeoutlook.sendEmail({
+          auth: {
+              user: "novorumo054@outlook.com",
+              pass: "Novorumopm"
+          },
+          from: 'novorumo054@outlook.com',
+          to: email,
+          subject: 'Administrador - Novo Rumo',
+          html:   '<div style="justify-content-center; text-align: center;">'+
+                      '<div><h2>Olá '+ name +'</h2></div>'+
+                      '<div style="margin-bottom: 10px;"><h4>Sua senha para o email '+ email +' é: '+ subject +'</h4></div>'+
+                      '<div style="margin-bottom: 10px;"><h4>Não compartilhe com ninguém, mantenha-a segura</h4></div>'+
+                  '</div>',
+          replyTo: 'novorumo054@outlook.com',
+          onError: (e) => {
+              console.log('Error', 'Send e-mail to client error: ' + e);
+          },
+          onSuccess: (i) => {
+              console.log('info', 'Send e-mail to client: ' + i);
+          }
+      });
+      
+      return res.status(200).json({ success: true, result: "Emaio enviado", status: 200 });
+      
+  } else {
+      console.log('error', 'Missing informations on create contact');
+  }
+ 
+});
