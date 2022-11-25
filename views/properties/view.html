@@ -50,7 +50,7 @@ Ver Servidor - {{ user.name }}
     <p><strong>Possui arma de fogo:</strong> {% if property.has_gun %}Sim{% else %}Não{% endif %}</p>
     {% if property.has_gun %}
         <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
-        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}Sim{% else %}Não{% endif %}</p>
+        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
     <p><strong>Observações:</strong> {{property.observations}}</p>
