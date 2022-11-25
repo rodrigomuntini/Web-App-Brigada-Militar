@@ -142,8 +142,9 @@ router.get('/', async (req, res) => {
   }
 
   //Search to
-  if (req.query.to && req.query.from) {
+  if (req.query.to && !req.query.from) {
     search['date'] = {$lte : new Date(req.query.to).toISOString()};
+    console.log(search);
   }
 
   //Search both dates

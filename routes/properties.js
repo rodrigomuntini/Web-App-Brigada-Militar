@@ -18,16 +18,20 @@ router.get("/", (req, res) => {
     }
 
     let page = req.query.page || 1;
-    let searchOwner = req.query.o ? "&o=" + req.query.o : "";
-    let searchProperty = req.query.c ? "&c=" + req.query.c : "";
-    let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
+    console.log(page);
+    // let searchOwner = req.query.o ? "&o=" + req.query.o : "";
+    // let searchProperty = req.query.c ? "&c=" + req.query.c : "";
+    // let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
+    let filterBy = req.query.filterby ? "&filterby=" + req.query.filterby : "";
+    let value = req.query.value ? "&value=" + req.query.value : "";
+    let value_dropdown = req.query.value_dropdown ? "&value_dropdown=" + req.query.value_dropdown : "";
 
     let sort = req.query.sort ? "&sort=" + req.query.sort : "";
     let column = req.query.column ? "&column=" + req.query.column : "";
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/properties?page=" + page + searchOwner + searchProperty + searchPropertyType + sort + column,
+        url: "http://localhost:8000/api/properties?page=" + page + sort + column + filterBy + value + value_dropdown,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
