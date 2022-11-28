@@ -185,6 +185,8 @@ router.get("/edit/:id", (req, res) => {
                 data.property.agricultural_machines = data_agricultural_machines;
             }
 
+            console.log(data.property);
+
             return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles, 'is_get': true });
         },
     });
