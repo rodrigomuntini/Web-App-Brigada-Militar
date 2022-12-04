@@ -13,6 +13,14 @@ Propriedades
     .margin-right {
         margin-right: 10px;
     }
+
+    .active {
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.default.css">
@@ -25,29 +33,32 @@ Propriedades
 <div style="clear: both;"></div>
 
 <form method="get" action="/properties">
-    <div class="form-group mb-3" style="float: left; width: 25%; margin-right: 2%;">
-        <label for="input-search" style="margin-bottom: 0.5%;">Proprietário</label>
-        <select name="o" id="select-search">
-            <option value="" selected></option>
-            {% for owner in owners %}
-                <option value="{{ owner._id }}">{{owner.firstname}} {{owner.lastname}}</option>
-            {% endfor %}
+    <div class="form-group mb-3" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="input-search" style="margin-bottom: 0.5%;">Filtrar por</label>
+        <select name="filterby" class="form-select" id="filter-by">
+            <option value="code">Código de Propriedade</option>
+            <option value="has_geo_board">Possui Placa de Georreferenciamento</option>
+            <option value="has_cams">Possui Câmeras na Propriedade</option>
+            <option value="has_gun">Possui Arma na Propriedade</option>
+            <option value="qty_agricultural_defensives">Possui Defensivos Agrícolas</option>
+            <option value="owner">Nome do Proprietário</option>
+            <option value="cpf">CPF do Proprietário</option>
+            <option value="property_type_id">Tipo de Propriedade</option>
+            <option value="car_identification">Placa do Veículo</option>
         </select>
     </div>
 
-    <div class="form-group mb-3" style="float: left; width: 25%; margin-right: 2%;">
-        <label for="input-search" style="margin-bottom: 0.5%;">Tipo de Propriedade</label>
-        <select name="tp" id="select-search-2">
-            <option value="" selected></option>
-            {% for property_type in property_types %}
-                <option value="{{ property_type._id }}">{{property_type.name}}</option>
-            {% endfor %}
-        </select>
+    <div class="form-group mb-3 active" id="value-normal" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="value" style="margin-bottom: 0.5%;">Valor</label>
+        <input type="text" id="value" name="value" class="form-control" style="margin-bottom: 2%; height: 36.18px;">
     </div>
 
-    <div class="form-group mb-3" style="float: left; width: 25%; margin-right: 2%;">
-        <label for="c" style="margin-bottom: 0.5%;">Código de Propriedade</label>
-        <input type="text" id="input-search" name="c" class="form-control" style="margin-bottom: 2%; height: 36.18px;" placeholder="Ex. ERE000">
+    <div class="form-group mb-3 hidden" id="value-dropdown" style="float: left; width: 39%; margin-right: 2%;">
+        <label for="value-dropdown" style="margin-bottom: 0.5%;">Valor</label>
+        <select name="value_dropdown" class="form-select">
+            <option value="yes">Sim</option>
+            <option value="no">Não</option>
+        </select>
     </div>
 
     <button type="submit" class="btn btn-primary" style="float: right; height: 36.18px; width: 18%; margin-top: 2%;">Pesquisar</button>
@@ -113,6 +124,22 @@ Propriedades
         if ("{{message}}" != "") {
             toastr["success"]("{{ message }}", "Sucesso!");
         }
+
+        $('#filter-by').change((e) => {
+            let option = $('#filter-by').val();
+
+            if (option == 'code' || option == 'owner' || option == 'cpf' || option == 'property_type_id' || option == 'car_identification') {
+                $('#value-normal').addClass('active');
+                $('#value-normal').removeClass('hidden');
+                $('#value-dropdown').addClass('hidden');
+                $('#value-dropdown').removeClass('active');
+            } else {
+                $('#value-normal').addClass('hidden');
+                $('#value-normal').removeClass('active');
+                $('#value-dropdown').addClass('active');
+                $('#value-dropdown').removeClass('hidden');
+            }
+        })
     })
 
     let selectize = $('#select-search').selectize();

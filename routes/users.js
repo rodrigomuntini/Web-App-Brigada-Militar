@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/users?page=" + page + search + sort + column,
+        url: "http://0.0.0.0:8002/api/users?page=" + page + search + sort + column,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -97,7 +97,7 @@ router.post("/add", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/users/add",
+        url: "http://0.0.0.0:8002/api/users/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -118,7 +118,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/users/show/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/users/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -133,7 +133,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/users/edit/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/users/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -156,7 +156,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "http://localhost:8000/api/users/delete/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/users/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -176,7 +176,7 @@ router.get("/view/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/users/show/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/users/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },

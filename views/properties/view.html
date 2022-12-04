@@ -23,9 +23,9 @@ Ver Servidor - {{ user.name }}
             new google.maps.Marker({
                 position: { lat: {{property.latitude}}, lng: {{property.longitude}}},
                 map,
-                title: "{{property.code}}",
+                title: "{% if (property.code != null) %}{{property.code}}{% else %}Propriedade{% endif %}",
                 label: {
-                    text: "{{property.code}}",
+                    text: "{% if (property.code != null) %}{{property.code}}{% else %}Propriedade{% endif %}",
                     color: 'white',
                 }
             });
@@ -38,7 +38,7 @@ Ver Servidor - {{ user.name }}
 {% block content %}
     <h1>Sobre a Propriedade</h1>
 
-    <p><strong>Código:</strong> {{property.code}}</p>
+    <p><strong>Código:</strong> {% if property.code %}{{property.code}}{% else %}Sem Código{% endif %}</p>
     <p><strong>Proprietário:</strong> {{property.owner.firstname}} {{property.owner.lastname}}</p>
     <p><strong>CPF:</strong> {{property.owner.cpf}}</p>
     <p><strong>Telefone 1:</strong> {{property.owner.phone1}}</p>
@@ -53,6 +53,7 @@ Ver Servidor - {{ user.name }}
         <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
+    <p><strong>Tamanho da Propriedade:</strong> {{property.area}}</p>
     <p><strong>Observações:</strong> {{property.observations}}</p>
 
     <hr>

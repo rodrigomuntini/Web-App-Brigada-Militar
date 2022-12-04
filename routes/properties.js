@@ -18,16 +18,20 @@ router.get("/", (req, res) => {
     }
 
     let page = req.query.page || 1;
-    let searchOwner = req.query.o ? "&o=" + req.query.o : "";
-    let searchProperty = req.query.c ? "&c=" + req.query.c : "";
-    let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
+    console.log(page);
+    // let searchOwner = req.query.o ? "&o=" + req.query.o : "";
+    // let searchProperty = req.query.c ? "&c=" + req.query.c : "";
+    // let searchPropertyType = req.query.tp ? "&tp=" + req.query.tp : "";
+    let filterBy = req.query.filterby ? "&filterby=" + req.query.filterby : "";
+    let value = req.query.value ? "&value=" + req.query.value : "";
+    let value_dropdown = req.query.value_dropdown ? "&value_dropdown=" + req.query.value_dropdown : "";
 
     let sort = req.query.sort ? "&sort=" + req.query.sort : "";
     let column = req.query.column ? "&column=" + req.query.column : "";
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/properties?page=" + page + searchOwner + searchProperty + searchPropertyType + sort + column,
+        url: "http://0.0.0.0:8002/api/properties?page=" + page + sort + column + filterBy + value + value_dropdown,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -57,7 +61,7 @@ router.get('/add', (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/owners/names",
+        url: "http://0.0.0.0:8002/api/owners/names",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -110,7 +114,7 @@ router.post('/add', (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/properties/add",
+        url: "http://0.0.0.0:8002/api/properties/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -125,7 +129,7 @@ router.post('/add', (req, res) => {
 
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8000/api/owners/names",
+                url: "http://0.0.0.0:8002/api/owners/names",
                 headers: {
                     'Authorization': 'bearer ' + req.session.token
                 },
@@ -150,7 +154,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/properties/show/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/properties/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'
@@ -180,6 +184,8 @@ router.get("/edit/:id", (req, res) => {
                 }
                 data.property.agricultural_machines = data_agricultural_machines;
             }
+
+            console.log(data.property);
 
             return res.render("properties/edit.html", { 'request_body': data.property, 'owners': owners, 'property_types': property_types, 'agricultural_machines': agricultural_machines, 'vehicles': vehicles, 'is_get': true });
         },
@@ -221,7 +227,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/properties/edit/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/properties/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -241,7 +247,7 @@ router.post("/edit/:id", (req, res) => {
 
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8000/api/owners/names",
+                url: "http://0.0.0.0:8002/api/owners/names",
                 headers: {
                     'Authorization': 'bearer ' + req.session.token
                 },
@@ -266,7 +272,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "http://localhost:8000/api/properties/delete/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/properties/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -285,7 +291,7 @@ router.get("/view/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/properties/show/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/properties/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token,
             'Content-Type': 'application/json'

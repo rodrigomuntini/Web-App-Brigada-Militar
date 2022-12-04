@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/vehicles?page=" + page + search + sort + column,
+        url: "http://0.0.0.0:8002/api/vehicles?page=" + page + search + sort + column,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -53,7 +53,7 @@ router.post("/add", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/vehicles/add",
+        url: "http://0.0.0.0:8002/api/vehicles/add",
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -73,7 +73,7 @@ router.get("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8000/api/vehicles/show/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/vehicles/show/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -88,7 +88,7 @@ router.post("/edit/:id", (req, res) => {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8000/api/vehicles/edit/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/vehicles/edit/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
@@ -111,7 +111,7 @@ router.post("/delete/:id", (req, res) => {
 
     $.ajax({
         type: "DELETE",
-        url: "http://localhost:8000/api/vehicles/delete/" + req.params.id,
+        url: "http://0.0.0.0:8002/api/vehicles/delete/" + req.params.id,
         headers: {
             'Authorization': 'bearer ' + req.session.token
         },
