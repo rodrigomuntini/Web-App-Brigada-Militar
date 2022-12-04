@@ -83,7 +83,7 @@ app.post("/login-verify", (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/api/auth/login",
+    url: "http://0.0.0.0:8002/api/auth/login",
     data: data,
     success: function (data) {
       console.log(data);
