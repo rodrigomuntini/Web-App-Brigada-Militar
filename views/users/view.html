@@ -44,6 +44,24 @@ Ver Servidor - {{ user.name }}
 
     <h2>Visitas</h2>
     {% if user.visits %}
+    <form method="get" action="/users/view/{{user._id}}">
+        <div class="form-group mb-3" style="float: left; width: 36.25%; margin-right: 2%;">
+            <label for="from" style="margin-bottom: 0.5%;">De:</label>
+            <input type="datetime-local" name="from" id="from" class="form-control"
+                style="margin-bottom: 2%; height: 36.18px;">
+        </div>
+    
+        <div class="form-group mb-3" style="float: left; width: 36.25%;">
+            <label for="to" style="margin-bottom: 0.5%;">Até:</label>
+            <input type="datetime-local" name="to" id="to" class="form-control" style="margin-bottom: 2%; height: 36.18px;">
+        </div>
+    
+        <button type="submit" class="btn btn-primary"
+                style="float: right; height: 36.18px; width: 23.5%; margin-top: 22px;">Pesquisar</button>
+    </form>
+    
+    <div style="clear: both;"></div>
+    <br>
         <div id="map"></div>
     {% else %}
         <p>Este servidor não realizou nenhuma visita</p>
