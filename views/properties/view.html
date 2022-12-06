@@ -53,8 +53,8 @@ Ver Servidor - {{ user.name }}
         <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
-    <p><strong>Tamanho da Propriedade:</strong> {{property.area}}</p>
-    <p><strong>Observações:</strong> {{property.observations}}</p>
+    <p><strong>Tamanho da Propriedade:</strong> {{property.area}} hectares</p>
+    <p><strong>Informações Adicionais:</strong> <textarea class="form-control">{{property.observations}}</textarea></p>
 
     <hr>
 

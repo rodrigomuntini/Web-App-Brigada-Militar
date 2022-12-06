@@ -21,11 +21,11 @@ Ver Visita
             });
 
             new google.maps.Marker({
-                position: { lat: {{property.latitude}}, lng: {{property.longitude}}},
+                position: { lat: {{visit.property.latitude}}, lng: {{visit.property.longitude}}},
                 map,
-                title: "{% if (property.code != null) %}{{property.code}}{% else %}Propriedade{% endif %}",
+                title: "{% if (visit.property.code != null) %}{{visit.property.code}}{% else %}Propriedade{% endif %}",
                 label: {
-                    text: "{% if (property.code != null) %}{{property.code}}{% else %}Propriedade{% endif %}",
+                    text: "{% if (visit.property.code != null) %}{{visit.property.code}}{% else %}Propriedade{% endif %}",
                     color: 'white',
                 }
             });
@@ -38,29 +38,29 @@ Ver Visita
 {% block content %}
     <h1>Sobre a Propriedade</h1>
 
-    <p><strong>Código:</strong> {% if property.code %}{{property.code}}{% else %}Sem Código{% endif %}</p>
-    <p><strong>Proprietário:</strong> {{owner.firstname}} {{owner.lastname}}</p>
-    <p><strong>CPF:</strong> {{owner.cpf}}</p>
-    <p><strong>Telefone 1:</strong> {{owner.phone1}}</p>
-    <p><strong>Telefone 2:</strong> {% if owner.phone2 %}{{owner.phone2}}{% else %}-{% endif %}</p>
-    <p><strong>Quantidade de Residentes:</strong> {{property.qty_people}}</p>
-    <p><strong>Possui câmeras:</strong> {% if property.has_cams %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui sinal telefônico:</strong> {% if property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui internet:</strong> {% if property.has_internet %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui arma de fogo:</strong> {% if property.has_gun %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Código:</strong> {% if visit.property.code %}{{visit.property.code}}{% else %}Sem Código{% endif %}</p>
+    <p><strong>Proprietário:</strong> {{visit.property.owner.firstname}} {{visit.property.owner.lastname}}</p>
+    <p><strong>CPF:</strong> {{visit.property.owner.cpf}}</p>
+    <p><strong>Telefone 1:</strong> {{visit.property.owner.phone1}}</p>
+    <p><strong>Telefone 2:</strong> {% if visit.property.owner.phone2 %}{{visit.property.owner.phone2}}{% else %}-{% endif %}</p>
+    <p><strong>Quantidade de Residentes:</strong> {{visit.property.qty_people}}</p>
+    <p><strong>Possui câmeras:</strong> {% if visit.property.has_cams %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui sinal telefônico:</strong> {% if visit.property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui internet:</strong> {% if visit.property.has_internet %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui arma de fogo:</strong> {% if visit.property.has_gun %}Sim{% else %}Não{% endif %}</p>
     {% if property.has_gun %}
-        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
-        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
+        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if visit.property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
+        <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if visit.property.gun_local_description %}{{visit.property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
-    <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
-    <p><strong>Tamanho da Propriedade (hectares): </strong> {{property.area}}</p>
-    <p><strong>Observações:</strong> {% if property.observations %}{{property.observations}}{% else %}-{% endif %}</p>
+    <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{visit.property.qty_agricultural_defensives}}</p>
+    <p><strong>Tamanho da Propriedade (hectares): </strong> {{visit.property.area}} hectares</p>
+    <p><strong>Informações Adicionais:</strong> <textarea class="form-control">{{visit.property.observations}}</textarea></p>
 
     <hr>
 
     <h3>Veículos</h3>
-    {% for vehicle in vehicles %}
-        <li>{{vehicle[0].name}} - {{vehicle[0].brand}}</li>
+    {% for vehicle in visit.property.vehicles %}
+        <li>{{vehicle.name}} - {{vehicle.brand}}</li>
     {% else %}
         <p>Esta propriedade não possui veículos.</p>
     {% endfor %}
@@ -68,8 +68,8 @@ Ver Visita
     <hr>
 
     <h3>Máquinas Agrícolas</h3>
-    {% for agricultural_machine in agricultural_machines %}
-        <li>{{agricultural_machine[0].name}}</li>
+    {% for agricultural_machine in visit.property.agricultural_machines %}
+        <li>{{agricultural_machine.name}}</li>
     {% else %}
         <p>Esta propriedade não possui máquinas agrícolas.</p>
     {% endfor %}
@@ -77,8 +77,8 @@ Ver Visita
     <hr>
 
     <h3>Solicitações</h3>
-    {% for request in requests %}
-        <li>{{request[0].agency}} - {% if request[0].has_success %}Com sucesso{% else %}Sem sucesso{% endif %}</li>
+    {% for request in visit.property.requests %}
+        <li>{{request.agency}} - {% if request.has_success %}Com sucesso{% else %}Sem sucesso{% endif %}</li>
         <hr>
     {% else %}
         <p>Esta propriedade não possui nenhuma solicitação.</p>
@@ -90,8 +90,8 @@ Ver Visita
     <p>
         <strong>Guarnição:</strong>
         <ul>
-            {% for user in users %}
-                <li>{{user[0].name}}</li>
+            {% for user in visit.users %}
+                <li>{{user.name}}</li>
             {% endfor %}
         </ul>
     </p>

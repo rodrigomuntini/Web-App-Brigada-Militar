@@ -63,17 +63,17 @@ Visitas
 
         <th>Servidores</th>
         
-        <th>Data <a href="/visits?{%if (queries.sort == 'ASC')%}sort=DESC{%else%}sort=ASC{%endif%}&column=date{%for var, query in queries %}{%if var != 'sort' and var != 'column'%}&{{var}}={{query}}{%endif%}{%endfor%}">{%if queries.sort == 'ASC' and queries.column == 'date'%}<i style="color: black;" class="fa-sharp fa-solid fa-arrow-down"></i>{%elif queries.sort == 'DESC' and queries.column == 'date'%}<i style="color: black;" class="fa-solid fa-arrow-up"></i>{% else %}<i style="color: black;" class="fa-solid fa-arrow-up"></i>{%endif%}</a></th>
+        <th>Data <a href="/visits?{%if (queries.sort == 'asc')%}sort=desc{%else%}sort=asc{%endif%}&column=date{%for var, query in queries %}{%if var != 'sort' and var != 'column'%}&{{var}}={{query}}{%endif%}{%endfor%}">{%if queries.sort == 'asc' and queries.column == 'date'%}<i style="color: black;" class="fa-sharp fa-solid fa-arrow-up"></i>{%elif queries.sort == 'desc' and queries.column == 'date'%}<i style="color: black;" class="fa-solid fa-arrow-down"></i>{% else %}<i style="color: black;" class="fa-solid fa-arrow-down"></i>{%endif%}</a></th>
 
         <th>Ações</th>
     </thead>
     <tbody>
         {% for visit in visits %}
         <tr>
-            <td>{{ properties[visit._id].code }}</td>
+            <td>{{ visit.property.code }}</td>
             <td>
                 <ul>
-                    {% for user in garrison[visit._id] %}
+                    {% for user in visit.users %}
                         {% if user.name != null %}
                             <li>{{user.name}}</li>
                         {% endif %}

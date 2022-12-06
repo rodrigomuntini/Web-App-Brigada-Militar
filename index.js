@@ -7,7 +7,6 @@ const { window } = new JSDOM("");
 const $ = require("jquery")(window);
 var session = require('express-session');
 var auth = require('./middleware/auth');
-var mongoconnect = require('./mongodb/mongodb');
 const nodeoutlook = require('nodejs-nodemailer-outlook')
 
 var vehiclesRouter = require('./routes/vehicles');
@@ -17,7 +16,6 @@ var visitsRouter = require('./routes/visits');
 var propertiesRouter = require('./routes/properties');
 var usersRouter = require('./routes/users');
 var ownersRouter = require('./routes/owners');
-const { mongo } = require("mongoose");
 
 // SERVER CONFIGURATION
 var port = process.env.PORT || 3000;
@@ -26,8 +24,6 @@ let env = nunjucks.configure("views", {
   autoescape: true,
   express: app,
 });
-
-mongoconnect().catch(err => console.log(err));
 
 app.set("engine", env);
 require("useful-nunjucks-filters")(env);
