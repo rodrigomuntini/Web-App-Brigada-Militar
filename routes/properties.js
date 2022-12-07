@@ -207,7 +207,7 @@ router.post("/edit/:id", (req, res) => {
 
     let data = {
         "code": req.body.code,
-        "has_geo_board": req.body.code != undefined ? true : false,
+        "has_geo_board": req.body.has_geo_board,
         "qty_people": req.body.qty_people,
         "has_cams": !req.body.has_cams ? false : true,
         "has_phone_signal": !req.body.has_phone_signal ? false : true,

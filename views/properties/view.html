@@ -42,25 +42,26 @@ Ver Servidor - {{ user.name }}
     <p><strong>Proprietário:</strong> {{property.owner.firstname}} {{property.owner.lastname}}</p>
     <p><strong>CPF:</strong> {{property.owner.cpf}}</p>
     <p><strong>Telefone 1:</strong> {{property.owner.phone1}}</p>
-    <p><strong>Telefone 2:</strong> {{property.owner.phone2}}</p>
+    <p><strong>Telefone 2:</strong> {% if property.owner.phone2 %}{{property.owner.phone2}}{% else %}-{% endif %}</p>
     <p><strong>Quantidade de Residentes:</strong> {{property.qty_people}}</p>
-    <p><strong>Possui câmeras:</strong> {% if property.has_cams %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui sinal telefônico:</strong> {% if property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui internet:</strong> {% if property.has_internet %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui arma de fogo:</strong> {% if property.has_gun %}Sim{% else %}Não{% endif %}</p>
-    {% if property.has_gun %}
-        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui placa:</strong> {% if (property.has_geo_board == true or property.has_geo_board == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui câmeras:</strong> {% if (property.has_cams == true or property.has_cams == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui sinal telefônico:</strong> {% if (property.has_phone_signal == true or property.has_phone_signal == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui internet:</strong> {% if (property.has_internet == true or property.has_internet == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui arma de fogo:</strong> {% if (property.has_gun == true or property.has_gun == "true") %}Sim{% else %}Não{% endif %}</p>
+    {% if (property.has_gun == true or property.has_gun == "true") %}
+        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if (property.has_gun_local == true or property.has_gun_local == "true") %}Sim{% else %}Não{% endif %}</p>
         <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if property.gun_local_description %}{{property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{property.qty_agricultural_defensives}}</p>
     <p><strong>Tamanho da Propriedade:</strong> {{property.area}} hectares</p>
-    <p><strong>Informações Adicionais:</strong> <textarea class="form-control">{{property.observations}}</textarea></p>
+    <p><strong>Informações Adicionais:</strong> <textarea disabled class="form-control">{{property.observations}}</textarea></p>
 
     <hr>
 
     <h3>Veículos</h3>
     {% for vehicle in property.vehicles %}
-        <li>{{vehicle.name}} - {{vehicle.brand}}</li>
+        <li>{{vehicle.name}} - {{vehicle.brand}}, Placa: {{vehicle.identification}}, Cor: {{vehicle.color}}</li>
     {% else %}
         <p>Esta propriedade não possui veículos.</p>
     {% endfor %}
@@ -97,6 +98,7 @@ Ver Servidor - {{ user.name }}
             </ul>
         </p>
         <p><strong>Viatura:</strong> {{visit.car}}</p>
+        <p><strong>Histórico:</strong> <textarea disabled class="form-control">{{visit.history}}</textarea></p>
         <hr>
     {% else %}
         <p>Esta propriedade ainda não recebeu visitas</p>

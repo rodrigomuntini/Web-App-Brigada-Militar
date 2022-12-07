@@ -55,27 +55,32 @@ Alterar Propriedade
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" name="has_cams" id="has_cams" class="form-check-input" {% if request_body.has_cams %}value="{{ request_body.has_cams }}" checked{% endif %}>
+        <input type="checkbox" name="has_geo_board" id="has_geo_board" class="form-check-input" {% if (request_body.has_geo_board == true or request_body.has_geo_board == 'true') %}value="{{ request_body.has_geo_board }}" checked{% endif %}>
+        <label class="form-check-label" for="has_geo_board">Possui Placa de Georreferenciamento</label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="has_cams" id="has_cams" class="form-check-input" {% if (request_body.has_cams == true or request_body.has_cams == 'true') %}value="{{ request_body.has_cams }}" checked{% endif %}>
         <label class="form-check-label" for="has_cams">Possui Câmeras</label>
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" name="has_phone_signal" id="has_phone_signal" class="form-check-input" {% if request_body.has_phone_signal %}value="{{ request_body.has_phone_signal }}" checked{% endif %}>
+        <input type="checkbox" name="has_phone_signal" id="has_phone_signal" class="form-check-input" {% if (request_body.has_phone_signal == true or request_body.has_phone_signal == 'true') %}value="{{ request_body.has_phone_signal }}" checked{% endif %}>
         <label class="form-check-label" for="has_phone_signal">Possui Sinal Telefônico</label>
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" name="has_internet" id="has_internet" class="form-check-input" {% if request_body.has_internet %}value="{{ request_body.has_internet }}" checked{% endif %}>
+        <input type="checkbox" name="has_internet" id="has_internet" class="form-check-input" {% if (request_body.has_internet == true or request_body.has_internet == 'true') %}value="{{ request_body.has_internet }}" checked{% endif %}>
         <label class="form-check-label" for="has_internet">Possui Internet</label>
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" name="has_gun" id="has_gun" class="form-check-input" {% if request_body.has_gun %}value="{{ request_body.has_gun }}" checked{% endif %}>
+        <input type="checkbox" name="has_gun" id="has_gun" class="form-check-input" {% if (request_body.has_gun == true or request_body.has_gun == 'true') %}value="{{ request_body.has_gun }}" checked{% endif %}>
         <label class="form-check-label" for="has_gun">Possui arma de fogo</label>
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" name="has_gun_local" id="has_gun_local" class="form-check-input" {% if request_body.has_gun_local %}value="{{ request_body.has_gun_local }}" checked{% endif %}>
+        <input type="checkbox" name="has_gun_local" id="has_gun_local" class="form-check-input" {% if (request_body.has_gun_local == true or request_body.has_gun_local == 'true') %}value="{{ request_body.has_gun_local }}" checked{% endif %}>
         <label class="form-check-label" for="has_gun_local">Possui local adequado para armazenar arma de fogo</label>
     </div>
 

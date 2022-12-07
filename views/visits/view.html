@@ -44,23 +44,24 @@ Ver Visita
     <p><strong>Telefone 1:</strong> {{visit.property.owner.phone1}}</p>
     <p><strong>Telefone 2:</strong> {% if visit.property.owner.phone2 %}{{visit.property.owner.phone2}}{% else %}-{% endif %}</p>
     <p><strong>Quantidade de Residentes:</strong> {{visit.property.qty_people}}</p>
-    <p><strong>Possui câmeras:</strong> {% if visit.property.has_cams %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui sinal telefônico:</strong> {% if visit.property.has_phone_signal %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui internet:</strong> {% if visit.property.has_internet %}Sim{% else %}Não{% endif %}</p>
-    <p><strong>Possui arma de fogo:</strong> {% if visit.property.has_gun %}Sim{% else %}Não{% endif %}</p>
-    {% if property.has_gun %}
-        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if visit.property.has_gun_local %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui placa:</strong> {% if (visit.property.has_geo_board == true or visit.property.has_geo_board == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui câmeras:</strong> {% if (visit.property.has_cams == true or visit.property.has_cams == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui sinal telefônico:</strong> {% if (visit.property.has_phone_signal == true or visit.property.has_phone_signal == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui internet:</strong> {% if (visit.property.has_internet == true or visit.property.has_internet == "true") %}Sim{% else %}Não{% endif %}</p>
+    <p><strong>Possui arma de fogo:</strong> {% if (visit.property.has_gun == true or visit.property.has_gun == "true") %}Sim{% else %}Não{% endif %}</p>
+    {% if (visit.property.has_gun == true or visit.property.has_gun == "true") %}
+        <p><strong>Possui local adequado para armazenar a arma de fogo:</strong> {% if (visit.property.has_gun_local == true or visit.property.has_gun_local == "true") %}Sim{% else %}Não{% endif %}</p>
         <p><strong>Descrição do local onde a arma está armazenada:</strong> {% if visit.property.gun_local_description %}{{visit.property.gun_local_description}}{% else %}-{% endif %}</p>
     {% endif %}
     <p><strong>Quantidade de Defensivos Agrícolas:</strong> {{visit.property.qty_agricultural_defensives}}</p>
-    <p><strong>Tamanho da Propriedade (hectares): </strong> {{visit.property.area}} hectares</p>
-    <p><strong>Informações Adicionais:</strong> <textarea class="form-control">{{visit.property.observations}}</textarea></p>
+    <p><strong>Tamanho da Propriedade:</strong> {{visit.property.area}} hectares</p>
+    <p><strong>Informações Adicionais:</strong> <textarea disabled class="form-control">{{visit.property.observations}}</textarea></p>
 
     <hr>
 
     <h3>Veículos</h3>
     {% for vehicle in visit.property.vehicles %}
-        <li>{{vehicle.name}} - {{vehicle.brand}}</li>
+        <li>{{vehicle.name}} - {{vehicle.brand}}, Placa: {{vehicle.identification}}, Cor: {{vehicle.color}}</li>
     {% else %}
         <p>Esta propriedade não possui veículos.</p>
     {% endfor %}
@@ -96,6 +97,7 @@ Ver Visita
         </ul>
     </p>
     <p><strong>Viatura:</strong> {{visit.car}}</p>
+    <p><strong>Histórico:</strong> <textarea disabled class="form-control">{{visit.history}}</textarea></p>
     <hr>
 
     <h3>Localização</h3>
