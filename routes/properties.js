@@ -172,7 +172,7 @@ router.get("/edit/:id", (req, res) => {
             if (data.property.vehicles.length > 0) {
                 for (index in data.property.vehicles) {
                     console.log(index);
-                    data_vehicles.push(data.property.vehicles[index]._id);
+                    data_vehicles.push([data.property.vehicles[index]._id, data.property.vehicles[index].identification, data.property.vehicles[index].color]);
                 }
                 data.property.vehicles = data_vehicles;
             }
@@ -196,12 +196,16 @@ router.post("/edit/:id", (req, res) => {
     // req.session.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbm92by1ydW1vLWFwaS5oZXJva3VhcHAuY29tL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjY4MDgxMjc4LCJleHAiOjE2NjgxMDI4NzgsIm5iZiI6MTY2ODA4MTI3OCwianRpIjoibGF0ZnltQ1BONWMzREdCVyIsInN1YiI6IjYzMzg4MDBjNjZhOGQ4ZGIwODA0MjgxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.POd2aq0vYKZpUD7TTmYaXSEiDvbjG3FBZ_vFLufv7B0";
 
     let req_vehicles = typeof (req.body.vehicles) == 'string' ? [req.body.vehicles] : req.body.vehicles;
+    let req_vehicle_identification = typeof (req.body.vehicle_identification) == 'string' ? [req.body.vehicle_identification] : req.body.vehicle_identification;
+    let req_vehicle_color = typeof (req.body.vehicle_color) == 'string' ? [req.body.vehicle_color] : req.body.vehicle_color;
+
     let req_agricultural_machines = typeof (req.body.agricultural_machines) == 'string' ? [req.body.agricultural_machines] : req.body.agricultural_machines;
 
     for (index in req_vehicles) {
         req_vehicles[index] = {
             "id": req_vehicles[index],
-            "color": "preto"
+            "color": req_vehicle_color[index],
+            "identification": req_vehicle_identification[index]
         };
     }
 
@@ -224,6 +228,8 @@ router.post("/edit/:id", (req, res) => {
         "latitude": req.body.latitude,
         "longitude": req.body.longitude,
     };
+
+    // res.send(data);
 
     $.ajax({
         type: "POST",

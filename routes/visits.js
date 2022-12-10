@@ -240,6 +240,10 @@ router.get('/view/:id', async (req, res) => {
     success: function (data) {
       return res.render("visits/view.html", { 'visit': data.visit });
     },
+    error: function (error) {
+      console.log(error);
+      return res.redirect('/visits');
+    },
   });
 });
 

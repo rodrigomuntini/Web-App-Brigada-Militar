@@ -110,6 +110,12 @@ Alterar Propriedade
                         </select>
                     </div>
                     <button type="button" style="float: right;" id="remove-vehicle-{{i}}" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-{{i}}"></i></button>
+                    <div style="clear: both;"></div>
+                    <label for="vehicle_identification">Placa</label>
+                    <input type="text" name="vehicle_identification" class="form-control" value="{{request_body_vehicle[1]}}">
+                    <label for="vehicle_color">Cor</label>
+                    <input type="text" name="vehicle_color" class="form-control" value="{{request_body_vehicle[2]}}">
+                    <br>
                 </div>
             {% endfor %}
         {% else %}
@@ -223,7 +229,7 @@ Alterar Propriedade
             $(add_button_vehicles).click((e) => {
                 x++;
                 
-                var newField = '<div class="garrison-block"><div class="form-group mb-3" style="width: 95%; float: left;"><select name="vehicles" class="select-vehicles" id="select-vehicles-' + x + '"><option value="" selected></option>{% for vehicle in vehicles %}<option value="{{ vehicle._id }}">{{vehicle.name}} - {{vehicle.brand}}</option>{% endfor %}</select></div><button type="button" style="float: right;" id="remove-vehicle-' + x + '" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-' + x +'"></i></button></div>';
+                var newField = '<div class="garrison-block"><div class="form-group mb-3" style="width: 95%; float: left;"><select name="vehicles" class="select-vehicles" id="select-vehicles-' + x + '"><option value="" selected></option>{% for vehicle in vehicles %}<option value="{{ vehicle._id }}">{{vehicle.name}} - {{vehicle.brand}}</option>{% endfor %}</select></div><button type="button" style="float: right;" id="remove-vehicle-' + x + '" class="btn btn-danger remove_vehicle_field"><i class="fa-sharp fa-solid fa-xmark remove_vehicle_field" id="remove-vehicle-' + x +'"></i></button><div style="clear: both;"></div><label for="vehicle_identification">Placa</label><input type="text" name="vehicle_identification" class="form-control" value="{{request_body_vehicle[1]}}"><label for="vehicle_color">Cor</label><input type="text" name="vehicle_color" class="form-control" value="{{request_body_vehicle[2]}}"><br></div>';
 
                 $(wrapper_vehicles).append(newField);
                 $('#select-vehicles-' + x).selectize();
@@ -280,7 +286,7 @@ Alterar Propriedade
                 {% set i = i|int + 1 %}
                     $select = $('#select-vehicles-{{i}}').selectize();
                     var selectize = $select[0].selectize;
-                    selectize.setValue("{{request_body_vehicle}}", false);
+                    selectize.setValue("{{request_body_vehicle[0]}}", false);
             {% endfor %}
         </script>
         {% else %}
