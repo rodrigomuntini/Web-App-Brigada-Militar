@@ -79,7 +79,7 @@ app.post("/login-verify", (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "http://0.0.0.0:8002/api/auth/login",
+    url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/auth/login",
     data: data,
     success: function (data) {
       console.log(data);

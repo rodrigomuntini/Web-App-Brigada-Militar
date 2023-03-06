@@ -225,7 +225,7 @@ router.get('/add', (req, res) => {
 
     $.ajax({
         type: "GET",
-        url: "http://0.0.0.0:8002/api/properties/codes",
+        url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/properties/codes",
         headers: {
           'Authorization': 'bearer ' + req.session.token
         },
@@ -260,7 +260,7 @@ router.post('/add', (req, res) => {
 
   $.ajax({
     type: "POST",
-    url: "http://0.0.0.0:8002/api/visits/add",
+    url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/visits/add",
     headers: {
       'Authorization': 'bearer ' + req.session.token
     },
@@ -272,7 +272,7 @@ router.post('/add', (req, res) => {
     error: function (error) {
       $.ajax({
         type: "GET",
-        url: "http://0.0.0.0:8002/api/properties/codes",
+        url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/properties/codes",
         headers: {
           'Authorization': 'bearer ' + req.session.token
         },
@@ -295,7 +295,7 @@ router.get("/edit/:id", (req, res) => {
 
   $.ajax({
       type: "GET",
-      url: "http://0.0.0.0:8002/api/visits/show/" + req.params.id,
+      url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/visits/show/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },
@@ -311,7 +311,7 @@ router.get("/edit/:id", (req, res) => {
 
           $.ajax({
             type: "GET",
-            url: "http://0.0.0.0:8002/api/properties/codes",
+            url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/properties/codes",
             headers: {
               'Authorization': 'bearer ' + req.session.token
             },
@@ -348,7 +348,7 @@ router.post("/edit/:id", (req, res) => {
 
   $.ajax({
       type: "POST",
-      url: "http://0.0.0.0:8002/api/visits/edit/" + req.params.id,
+      url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/visits/edit/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },
@@ -364,7 +364,7 @@ router.post("/edit/:id", (req, res) => {
 
           $.ajax({
             type: "GET",
-            url: "http://0.0.0.0:8002/api/properties/codes",
+            url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/properties/codes",
             headers: {
               'Authorization': 'bearer ' + req.session.token
             },
@@ -387,7 +387,7 @@ router.post("/delete/:id", (req, res) => {
 
   $.ajax({
       type: "DELETE",
-      url: "http://0.0.0.0:8002/api/visits/delete/" + req.params.id,
+      url: "http://ec2-107-21-160-174.compute-1.amazonaws.com:8002/api/visits/delete/" + req.params.id,
       headers: {
           'Authorization': 'bearer ' + req.session.token
       },
